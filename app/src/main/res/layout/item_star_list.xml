@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:background="#ffffff"
+android:paddingBottom="10dp"
+android:paddingLeft="16dp"
+android:paddingTop="10dp">
+
+<ImageView
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:src="@drawable/oval_6_copy_4_2x" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginLeft="15dp">
+
+    <TextView
+        android:id="@+id/tv_star_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="奢宠秘书"
+        android:textColor="@color/defaultColor"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_star_item_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_notify_item_name"
+        android:layout_marginTop="5dp"
+        android:text="钟宠一生不离不弃"
+        android:textColor="@color/defaultColor"
+        android:textSize="12sp" />
+</RelativeLayout>
+</LinearLayout>

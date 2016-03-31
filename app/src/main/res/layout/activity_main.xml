@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_content_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#f1f1f1" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_home"
+                style="@style/radiobutton_style"
+                android:checked="true"
+                android:drawableTop="@drawable/home_selector"
+                android:text="首页" />
+
+            <RadioButton
+                android:id="@+id/rb_store"
+                style="@style/radiobutton_style"
+                android:drawableTop="@drawable/store_selector"
+                android:text="商城" />
+
+            <ImageView
+                android:id="@+id/ib_message"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:src="@drawable/ic_tab_camera_checked" />
+
+            <RadioButton
+                android:id="@+id/rb_social"
+                style="@style/radiobutton_style"
+                android:drawableTop="@drawable/social_selector"
+                android:text="社交" />
+
+            <RadioButton
+                android:id="@+id/rb_mine"
+                style="@style/radiobutton_style"
+                android:drawableTop="@drawable/mine_selector"
+                android:text="我的" />
+        </RadioGroup>
+    </LinearLayout>
+</LinearLayout>

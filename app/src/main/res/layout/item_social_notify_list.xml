@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/oval_6_copy_4_2x"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
+        <TextView
+            android:id="@+id/tv_notify_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/defaultColor"
+            android:layout_marginTop="9dp"
+            android:textSize="15sp"
+            android:text="昵称"/>
+        <TextView
+            android:id="@+id/tv_notify_item_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/defaultColor"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tv_notify_item_name"
+            android:textSize="12sp"
+            android:text="你收到一条消息"/>
+        <TextView
+            android:id="@+id/tv_notify_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="一分钟前"
+            android:textSize="10sp"
+            android:textColor="@color/defaultColor"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F1F1"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/tv_notify_item_describe"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

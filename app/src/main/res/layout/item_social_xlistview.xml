@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.angelplanets.app.view.CircleImageView
+                android:id="@+id/iv_social_item_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_social_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="9dp"
+                android:layout_toRightOf="@+id/iv_social_item_icon"
+                android:text="Christian Black"
+                android:textColor="@color/defaultColor"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/tv_social_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_social_item_name"
+                android:layout_below="@+id/tv_social_item_name"
+                android:layout_marginTop="2dp"
+                android:text="13:20"
+                android:textColor="@color/defaultColor"
+                android:textSize="13dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_social_item_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="aaaaaaaa"
+            android:textColor="@color/defaultColor"
+            android:textSize="13dp" />
+
+
+        <com.angelplanets.app.view.SocialImageView
+            android:id="@+id/iv_social_item_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/social_message_bg_2x"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D8D8D8" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="12dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_social_item_praise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/icon_good_2x"
+                android:drawablePadding="5dp"
+                android:text="0"
+                android:textColor="@color/defaultColor"
+                android:textSize="13dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:background="#D8D8D8" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_social_item_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/icon_comment_2x"
+                android:drawablePadding="5dp"
+                android:text="0"
+                android:textColor="@color/defaultColor"
+                android:textSize="13dp" />
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
+</LinearLayout>

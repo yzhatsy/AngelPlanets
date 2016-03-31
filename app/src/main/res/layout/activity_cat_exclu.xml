@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/common_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/xlv_cat_exclus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
+        ptr:ptrAnimationStyle="flip"
+        android:divider="@null"/>
+
+        <ImageButton
+            android:id="@+id/ib_detail_cart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/shopping_cart_2x"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="110dp"/>
+        <TextView
+            android:id="@+id/tv_shopping_count"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/red_point"
+            android:layout_alignTop="@+id/ib_detail_cart"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_red_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/red_point"
+            android:layout_toRightOf="@+id/ib_detail_cart"
+            android:layout_marginBottom="170dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:textColor="#ffffff"
+            android:visibility="gone"/>
+        </RelativeLayout>
+
+</LinearLayout>

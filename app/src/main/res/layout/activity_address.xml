@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <include layout="@layout/common_title" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <ListView
+        android:id="@+id/lv_address"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:listSelector="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="5dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_add_address"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="#ffffffff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/add_address"
+            android:clickable="false"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="添加新地址"
+            android:textColor="@color/textColor"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</LinearLayout>

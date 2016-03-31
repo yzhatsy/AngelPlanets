@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:layout_marginTop="5dp"
+    android:background="#ffffff"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="165dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/shop_dog_left_bg_2x" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#aaffffff"
+            android:paddingTop="2dp"
+            android:paddingBottom="3dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tv_store_planet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="猫咪专用"
+                android:textColor="@color/defaultColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_store_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共0款"
+                android:textColor="@color/defaultColor"
+                android:textSize="14sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="2dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="165dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/shop_dog_right_bg_2x"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/tv_store_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="精品推荐"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textColor="@color/textColor"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_store_recommend"
+            android:text="精品猫森林"
+            android:gravity="center"
+            android:textSize="9sp"
+            android:textColor="@color/defaultColor"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/shop_dog_right_bg_2x"
+                android:scaleType="fitXY"/>
+                <TextView
+                    android:id="@+id/tv_store_hot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="爆款热卖"
+                    android:textSize="13sp"
+                    android:textColor="@color/textColor"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_store_hot"
+                    android:text="Ronnie Stevens"
+                    android:gravity="center"
+                    android:textSize="9sp"
+                    android:textColor="@color/defaultColor"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/shop_dog_right_bg_2x"
+                android:scaleType="fitXY"/>
+
+                <TextView
+                    android:id="@+id/tv_store_abroad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="奢宠海外淘"
+                    android:textSize="11sp"
+                    android:textColor="@color/textColor"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_store_abroad"
+                    android:text="Type something"
+                    android:textSize="9sp"
+                    android:textColor="@color/defaultColor"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
