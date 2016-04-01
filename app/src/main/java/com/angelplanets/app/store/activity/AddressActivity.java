@@ -42,6 +42,7 @@ public class AddressActivity extends Activity implements View.OnClickListener {
     private ListView lv_address;
     private RelativeLayout rl_add_address;
     private int userId;  //用户id
+    private int mAddressId;
     private AddressAdapter mAdapter;
     private List<AddressBean.AddressMessage> addressData;
     @Override
@@ -57,7 +58,9 @@ public class AddressActivity extends Activity implements View.OnClickListener {
         tv_common_title.setText("我的地址");
         //获得userId
         userId = getIntent().getIntExtra(Constant.LOGIN_FLAG,-1);
+        mAddressId = getIntent().getIntExtra("ADDRESS_ID",-1);
         Log.e("TAG","addressActivity..."+userId);
+        Log.e("TAG","addressActivity..."+mAddressId);
         getDataFromNet();
 
         ib_common_back.setOnClickListener(this);
@@ -106,9 +109,18 @@ public class AddressActivity extends Activity implements View.OnClickListener {
         AddressBean addressBean = CUtils.getGson().fromJson(s, AddressBean.class);
         //Log.e("TAG", "address is null == " + (addressBean == null));
         if (addressBean != null){
-            if (addressBean.getData().size()!= 0){
+            if (addressBean.getData().size()!= 0){ //不为空时设置适配器
                 addressData = addressBean.getData();
-                addressBean.getData().get(0).setIsCheck(true);
+                if (mAddressId != -1){      //选中显示的地址，如初始未显示，默认显示第一个
+                    for (int i=0; i<addressData.size(); i++){
+                        if (addressData.get(i).getDeliveryAddressId()==mAddressId){
+                            addressBean.getData().get(i).setIsCheck(true);
+                        }
+                    }
+                }else {                   //默认选中第一个
+                    addressBean.getData().get(0).setIsCheck(true);
+                }
+
                 mAdapter = new AddressAdapter();
                 lv_address.setAdapter(mAdapter);
             }
@@ -192,6 +204,12 @@ public class AddressActivity extends Activity implements View.OnClickListener {
             holder.rl_return.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("ADDRESS_BACK", addressMessage);
+                    intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
+
                    for (int i=0; i<addressData.size(); i++){
                        if (position == i){
                            addressData.get(i).setIsCheck(true);
@@ -200,6 +218,8 @@ public class AddressActivity extends Activity implements View.OnClickListener {
                        }
                    }
                     mAdapter.notifyDataSetChanged();
+                    finish();
+                    overridePendingTransition(R.anim.left_in, R.anim.right_out);
                 }
             });
 

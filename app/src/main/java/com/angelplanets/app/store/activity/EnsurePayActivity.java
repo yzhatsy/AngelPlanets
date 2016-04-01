@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelplanets.app.R;
+import com.angelplanets.app.store.bean.AddressBean;
+import com.angelplanets.app.store.bean.ShoppingCartBean;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 import com.google.gson.Gson;
 import com.pingplusplus.android.PingppLog;
@@ -25,12 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -56,6 +56,10 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
     private RelativeLayout rl_weixin_pay; //微信支付
     private RelativeLayout rl_alipay;  //支付宝
     private String PAY_URL = URLUtils.PAY_URL;
+    private  AddressBean.AddressMessage addressMessage;
+    private List<ShoppingCartBean.DataEntity> mCartShop;
+    private int mUserId;
+    private double mPriceCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,11 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
 
         ib_common_back.setVisibility(View.VISIBLE);
         tv_common_title.setText("确认支付");
-
+        mUserId = getIntent().getIntExtra(Constant.LOGIN_FLAG,-1);
+        addressMessage = (AddressBean.AddressMessage) getIntent().getSerializableExtra("ADDRESS");
+        mCartShop = (List<ShoppingCartBean.DataEntity>) getIntent().getSerializableExtra("SHOP_LIST");
+        mPriceCount = getIntent().getDoubleExtra("PRICE_COUNT",0);
+        tv_pay_count.setText(mPriceCount+"");
         PingppLog.DEBUG = true;
 
         setListener();
@@ -87,21 +95,21 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
-        String cleanString = "145".replaceAll(replaceable, "");
-        int amount = Integer.valueOf(new BigDecimal(cleanString).toString());
 
-        int customerId = 167;
-        String addressId = "1";
-        String phonenumber = "18720932369";
-        String address= "北京市朝阳区";
-        String customerName = "果爷";
-        Map map = new HashMap();
-        map.put("commodityId",24);
-        map.put("count",1);
-        map.put("price",145);
+        String addressId = addressMessage.getDeliveryAddressId()+"";
+        String phonenumber =addressMessage.getPhonenumber();
+        String address=  addressMessage.getDetailAddress();
+        String customerName = addressMessage.getName();
         List orderCommodityList = new ArrayList();
-        orderCommodityList.add(map);
+        for (int i=0; i<mCartShop.size(); i++){
+            Map map = new HashMap();
+            map.put("commodityId",mCartShop.get(i).getCommodityId());
+            map.put("count",mCartShop.get(i).getCount());
+
+            map.put("price",mCartShop.get(i).getPrice());
+
+            orderCommodityList.add(map);
+        }
 
         switch (v.getId()){
             case R.id.ib_common_back:    //返回
@@ -110,11 +118,11 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
                 break;
 
             case R.id.rl_weixin_pay:    //微信
-                new PaymentTask().execute(new PaymentRequest( customerId, addressId, amount, CHANNEL_WECHAT, phonenumber,address,customerName, orderCommodityList));
+                new PaymentTask().execute(new PaymentRequest( mUserId, addressId, mPriceCount, CHANNEL_WECHAT, phonenumber,address,customerName, orderCommodityList));
                 break;
 
             case R.id.rl_alipay:       //支付宝
-                new PaymentTask().execute(new PaymentRequest( customerId, addressId, amount, CHANNEL_ALIPAY, phonenumber,address,customerName, orderCommodityList));
+                new PaymentTask().execute(new PaymentRequest( mUserId, addressId, mPriceCount, CHANNEL_ALIPAY, phonenumber,address,customerName, orderCommodityList));
                 break;
         }
     }
@@ -210,8 +218,6 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
      * 支付信息
      */
     class PaymentRequest {
-       // String channel;
-       // int amount;
         int customerId;
         String addressId;
         double amount;
@@ -222,9 +228,9 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
         List orderCommodityList = new ArrayList();
 
 
-        public PaymentRequest(int customerId, String addressId,double amount,int payType, String phonenumber,String address,String customerName,  List orderCommodityList) {
-            /*this.channel = channel;
-            this.amount = amount;*/
+         public PaymentRequest(int customerId, String addressId,double amount,int payType, String phonenumber,String address,String customerName,  List orderCommodityList) {
+
+            this.amount = amount;
 
             this.customerId = customerId;
             this.addressId = addressId;

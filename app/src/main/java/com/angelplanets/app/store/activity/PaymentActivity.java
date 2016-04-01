@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +47,6 @@ import java.util.TreeSet;
  */
 public class PaymentActivity extends Activity implements View.OnClickListener {
 
-    private static final int  ADDRESS_REQUEST_CODE = 1;
     private RelativeLayout ib_common_back;
     private TextView tv_common_title;
     private ListView mListView;
@@ -56,10 +57,13 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
     private TextView tv_custom_name;  //收件人
     private TextView tv_phone_number;  //收件电话
     private TextView tv_pay_address;  //收件地址
-    private List<ShoppingCartBean.DataEntity> mCartData; //购物车数据集合
     private ImageOptions mImageOptions;
+    private double priceCount; //总价格
     private int userId;
+    private int mAddressId = -1;
     private TreeSet<ShoppingCartBean.DataEntity> checkShops;
+    private List<ShoppingCartBean.DataEntity> mCartData; //购物车数据集合
+    private  AddressBean.AddressMessage addressMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +122,8 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
         AddressBean addressBean = CUtils.getGson().fromJson(result, AddressBean.class);
         if (addressBean!= null){
             if (addressBean.getData().size() != 0) {
-                AddressBean.AddressMessage addressMessage = addressBean.getData().get(0);
+                addressMessage = addressBean.getData().get(0);
+                mAddressId = addressMessage.getDeliveryAddressId();
                 tv_custom_name.setText(addressMessage.getName());
                 tv_phone_number.setText(addressMessage.getPhonenumber());
                 tv_pay_address.setText(addressMessage.getDetailAddress());
@@ -167,7 +172,7 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
 
         mListView.setAdapter(new PaymentAdapter());
         int count = 0;
-        double priceCount = 0.0;
+        priceCount= 0.0;
 
           for (int i=0; i<mCartData.size(); i++){
               count += mCartData.get(i).getCount();
@@ -191,11 +196,23 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
             case R.id.ll_address:   //地址管理
                 Intent intent = new Intent(this,AddressActivity.class);
                 intent.putExtra(Constant.LOGIN_FLAG,userId);
-                startActivityForResult(intent, ADDRESS_REQUEST_CODE);
+                intent.putExtra("ADDRESS_ID",mAddressId);
+                startActivityForResult(intent, Constant.ADDRESS_REQUEST_CODE);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case R.id.Rl_pay:   //支付按钮
-                startActivity(new Intent(this,EnsurePayActivity.class));
+                if (addressMessage == null){
+                    Toast.makeText(this,"请填写收货地址",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent1 = new Intent(this,EnsurePayActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("ADDRESS",addressMessage);
+                bundle.putSerializable("SHOP_LIST", (Serializable) mCartData);
+                intent1.putExtras(bundle);
+                intent1.putExtra(Constant.LOGIN_FLAG, userId);
+                intent1.putExtra("PRICE_COUNT",priceCount);
+                startActivity(intent1);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
@@ -275,7 +292,16 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == ADDRESS_REQUEST_CODE){
+        if (resultCode == RESULT_OK && requestCode == Constant.ADDRESS_REQUEST_CODE){
+            Bundle bundle = data.getExtras();
+           addressMessage = (AddressBean.AddressMessage) bundle.getSerializable("ADDRESS_BACK");
+            if (addressMessage != null){
+                mAddressId = addressMessage.getDeliveryAddressId();
+                tv_custom_name.setText(addressMessage.getName());
+                tv_phone_number.setText(addressMessage.getPhonenumber());
+                tv_pay_address.setText(addressMessage.getDetailAddress());
+                Log.e("TAG","--------------------------------");
+            }
 
         }
     }
