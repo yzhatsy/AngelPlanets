@@ -3,6 +3,7 @@ package com.angelplanets.app.store.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.angelplanets.app.R;
+import com.angelplanets.app.store.bean.AddressBean;
 import com.angelplanets.app.store.bean.ShoppingCartBean;
+import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 
@@ -22,25 +33,32 @@ import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+/**
+ * 确认订单支付页面
+ */
 public class PaymentActivity extends Activity implements View.OnClickListener {
 
+    private static final int  ADDRESS_REQUEST_CODE = 1;
     private RelativeLayout ib_common_back;
     private TextView tv_common_title;
     private ListView mListView;
-    private String shoppingUrl;     //购物车商品url
     private TextView tv_pay;        //总价格
     private RelativeLayout Rl_pay;  //结算
     private TextView tv_total_pay;  //总数
     private LinearLayout ll_address; //收货地址
+    private TextView tv_custom_name;  //收件人
+    private TextView tv_phone_number;  //收件电话
+    private TextView tv_pay_address;  //收件地址
     private List<ShoppingCartBean.DataEntity> mCartData; //购物车数据集合
-    private String mjsonStr;
     private ImageOptions mImageOptions;
+    private int userId;
     private TreeSet<ShoppingCartBean.DataEntity> checkShops;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +69,61 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
                 .build();
 
         initView();
-
-        View header = View.inflate(this,R.layout.payment_listview_head,null);
-        ll_address = (LinearLayout) header.findViewById(R.id.ll_address);
-        mListView.addHeaderView(header);
         setListener();
-        int userId = getIntent().getIntExtra(Constant.LOGIN_FLAG,-1);
+        userId = getIntent().getIntExtra(Constant.LOGIN_FLAG,-1);
+        Log.e("TAG", "PaymentActivity..."+userId);
         checkShops = (TreeSet<ShoppingCartBean.DataEntity>) getIntent().getSerializableExtra("CHECK_SHOPS");
         Iterator iterator=checkShops.iterator();  //迭代器
         while(iterator.hasNext()){
             mCartData.add((ShoppingCartBean.DataEntity) iterator.next());
         }
-
+        getdataFromNet();
         setData();
+    }
+
+    /**
+     * 请求地址数据
+     */
+    private void getdataFromNet() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.GET, URLUtils.ADDRESS_URL + userId, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                parseJson(s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String data = new String(response.data,"UTF-8");
+                    return Response.success(data, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return super.parseNetworkResponse(response);
+            }
+        };
+        queue.add(request);
+    }
+
+    /**
+     * 解析数据
+     * @param result
+     */
+    private void parseJson(String result) {
+        AddressBean addressBean = CUtils.getGson().fromJson(result, AddressBean.class);
+        if (addressBean!= null){
+            if (addressBean.getData().size() != 0) {
+                AddressBean.AddressMessage addressMessage = addressBean.getData().get(0);
+                tv_custom_name.setText(addressMessage.getName());
+                tv_phone_number.setText(addressMessage.getPhonenumber());
+                tv_pay_address.setText(addressMessage.getDetailAddress());
+            }
+        }
     }
 
     /**
@@ -89,6 +149,13 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
         tv_total_pay.setVisibility(View.VISIBLE);
         tv_common_title.setText("确认订单");
         mCartData = new ArrayList<>();
+
+        View header = View.inflate(this,R.layout.payment_listview_head,null);
+        ll_address = (LinearLayout) header.findViewById(R.id.ll_address);
+        tv_custom_name = (TextView) header.findViewById(R.id.tv_custom_name);
+        tv_phone_number = (TextView) header.findViewById(R.id.tv_phone_number);
+        tv_pay_address = (TextView) header.findViewById(R.id.tv_pay_address);
+        mListView.addHeaderView(header);
 
     }
 
@@ -122,7 +189,9 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
                 overridePendingTransition(R.anim.left_in, R.anim.right_out);
                 break;
             case R.id.ll_address:   //地址管理
-                startActivity(new Intent(this,AddressActivity.class));
+                Intent intent = new Intent(this,AddressActivity.class);
+                intent.putExtra(Constant.LOGIN_FLAG,userId);
+                startActivityForResult(intent, ADDRESS_REQUEST_CODE);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case R.id.Rl_pay:   //支付按钮
@@ -196,6 +265,19 @@ public class PaymentActivity extends Activity implements View.OnClickListener {
         TextView tv_item_shopsize;          //尺码
         TextView tv_shopping_item_price;    //价格
         TextView tv_shop_item_count;        //商品数量
+    }
+
+    /**
+     * 带回掉返回
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == ADDRESS_REQUEST_CODE){
+
+        }
     }
 
     @Override

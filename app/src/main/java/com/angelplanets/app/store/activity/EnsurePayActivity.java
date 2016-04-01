@@ -135,12 +135,14 @@ public class EnsurePayActivity extends Activity implements View.OnClickListener 
             PaymentRequest paymentRequest = pr[0];
             String data = null;
             String json = new Gson().toJson(paymentRequest);
+            //打印信息
             Log.e("TAG","json....="+json);
             PingppLog.a(json);
 
             try {
                 //向Your Ping++ Server SDK请求数据，返回请求信息
                 data = postJson(PAY_URL, json);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

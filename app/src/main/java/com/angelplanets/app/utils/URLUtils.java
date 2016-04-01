@@ -86,4 +86,19 @@ public class URLUtils {
      * 支付url
      */
     public static final String PAY_URL = rootUrl+"/rest/api/order/getPayInfo";
+
+    /**
+     * 用户地址的url
+     */
+    public static final String ADDRESS_URL = rootUrl+"/rest/api/deliveryAddress/listAll?userId=";
+
+    /**
+     * 添加地址的url
+     */
+    public static final String ADD_ADDRESS_URL = rootUrl+"/rest/api/deliveryAddress/add";
+
+    /**
+     * 修改地址的url
+     */
+    public static final String ALTER_ADDRESS_URL = rootUrl+"/rest/api/deliveryAddress/update";
 }

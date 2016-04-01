@@ -1,5 +1,6 @@
 package com.angelplanets.app.store.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -54,12 +55,21 @@ public class AddressBean {
         return data;
     }
 
-    public static class AddressMessage {
+    public static class AddressMessage implements Serializable {
         private int deliveryAddressId;
         private String name;
         private String detailAddress;
         private String postcode;
         private String phonenumber;
+        private boolean isCheck;
+
+        public boolean isCheck() {
+            return isCheck;
+        }
+
+        public void setIsCheck(boolean isCheck) {
+            this.isCheck = isCheck;
+        }
 
         public void setDeliveryAddressId(int deliveryAddressId) {
             this.deliveryAddressId = deliveryAddressId;

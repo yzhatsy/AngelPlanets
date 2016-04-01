@@ -71,6 +71,7 @@ public class ShoppingCartActivity extends Activity implements ShoppingCatAdapter
 
         //获得商品列表的url
         mUserId = getIntent().getIntExtra(Constant.LOGIN_FLAG, -1);
+        Log.e("TAG","ShoppingCartActivity..."+mUserId);
         shoppingUrl = URLUtils.SHOPPING_CART+mUserId+URLUtils.PAGECOUNT+1;
         setListener();
         getDataFromNet();
@@ -321,6 +322,13 @@ public class ShoppingCartActivity extends Activity implements ShoppingCatAdapter
     private void doCheckAll() {
         for (int i=0; i<mCartData.size(); i++){
             mCartData.get(i).setIsCheckable(cb_total.isChecked());
+        }
+        if (!cb_total.isChecked()){
+            checkShops.clear();
+        }else {
+            for (ShoppingCartBean.DataEntity itemData : mCartData){
+                checkShops.add(itemData);
+            }
         }
         calculate();
         mAdapter.notifyDataSetChanged();
