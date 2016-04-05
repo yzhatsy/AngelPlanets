@@ -4,7 +4,9 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -80,8 +82,15 @@ public class CUtils {
      * @return
      * @throws Exception
      */
-    public static String md5(String string) throws Exception {
-        byte[] hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+    public static String md5(String string) {
+        byte[] hash = new byte[0];
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         StringBuilder hex = new StringBuilder(hash.length * 2);
         for (byte b : hash) {
             if ((b & 0xFF) < 0x10) {

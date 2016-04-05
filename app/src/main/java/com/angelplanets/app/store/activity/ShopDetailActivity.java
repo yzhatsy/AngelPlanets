@@ -28,7 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.angelplanets.app.LoginActivity;
+import com.angelplanets.app.login.LoginActivity;
 import com.angelplanets.app.R;
 import com.angelplanets.app.store.bean.ShopDetailBean;
 import com.angelplanets.app.utils.CUtils;

@@ -101,4 +101,17 @@ public class URLUtils {
      * 修改地址的url
      */
     public static final String ALTER_ADDRESS_URL = rootUrl+"/rest/api/deliveryAddress/update";
+    /**
+     * 登陆的url
+     */
+    public static final String LOGIN_URL = rootUrl+"/rest/api/login";
+    /**
+     * 获取验证码的url
+     */
+    public static final String OBTAIN_CODE_URL = rootUrl+"/rest/api/sms_code?phonenumber=";
+
+    /**
+     * 注册的url
+     */
+    public static final String REGISTER_URL = rootUrl+"/rest/api/register";
 }
