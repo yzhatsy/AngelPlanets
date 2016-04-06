@@ -2,41 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
-    android:background="#ffffff"
-    android:layout_marginTop="-100dp"
+    android:layout_height="270dp"
+
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-       >
+        android:layout_height="230dp">
 
-        <ImageView
-            android:id="@+id/iv_mine_photo"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:paddingLeft="1dp"
-            android:src="@drawable/shop_customized_bg_2x"
-            android:scaleType="centerCrop" />
-        <ImageButton
-            android:id="@+id/ib_mine_setting"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="110dp"
-            android:layout_marginRight="16dp"
-            android:scaleType="fitXY"
-            android:background="@android:color/transparent"
-            android:src="@drawable/icon_setting_2x" />
         <com.angelplanets.app.view.CircleImageView
             android:id="@+id/iv_mine_icon"
             android:layout_width="76dp"
             android:layout_height="76dp"
             app:civ_border_width="1dp"
+            android:clickable="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/family_pho_2x"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="60dp"
             app:civ_border_color="@android:color/white"/>
         <TextView
             android:id="@+id/tv_mine_name"
@@ -44,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Karen Grant"
             android:textSize="15dp"
+            android:clickable="true"
             android:textColor="#ffffff"
             android:layout_marginTop="6dp"
             android:layout_below="@+id/iv_mine_icon"
@@ -56,6 +39,7 @@
             android:textSize="12dp"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"
+            android:clickable="true"
             android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
@@ -66,6 +50,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@android:color/white"
         android:orientation="horizontal">
 
         <RelativeLayout

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background_img"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="-100dp"
+        android:background="#ff646464"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/shop_customized_bg_2x" />
+
+    <com.angelplanets.app.view.PullScrollView
+        android:id="@+id/animal_pullScrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:headerHeight="400dp"
+        app:headerVisibleHeight="100dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/animal_information_top" />
+            <include layout="@layout/animal_information_body" />
+        </LinearLayout>
+    </com.angelplanets.app.view.PullScrollView>
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/back_2x"
+        />
+
+</RelativeLayout>

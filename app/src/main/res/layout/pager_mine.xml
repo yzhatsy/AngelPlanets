@@ -1,112 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.angelplanets.app.view.PullToZoomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background_img"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="-100dp"
+        android:background="#ff646464"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/shop_customized_bg_2x" />
+
+    <com.angelplanets.app.view.PullScrollView
+        android:id="@+id/pullScrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/pager_mine_photo_wall" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="16dp"
-                android:text="我的宠物"
-                android:textColor="@color/defaultColor"
-                android:textSize="14sp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/ll_mine_addplanet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_mine_add"
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/my_petinfo_add_2x" />
-
-                </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:clickable="true"
+        app:headerHeight="400dp"
+        app:headerVisibleHeight="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="30dp"
-            android:layout_marginBottom="10dp"
-            android:background="#ffffff"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="11dp"
-                android:layout_marginTop="10dp"
-                android:text="健康监控"
-                android:textColor="@color/defaultColor"
-                android:textSize="16dp" />
+            <include layout="@layout/pager_mine_photo_wall" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#f1f1f1">
 
                 <LinearLayout
-                    android:id="@+id/ll_mine_planet1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-                <include layout="@layout/time_line"/>
+                    android:layout_marginTop="5dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="16dp"
+                        android:text="我的宠物"
+                        android:textColor="@color/defaultColor"
+                        android:textSize="14sp" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/ll_mine_addplanet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_mine_add"
+                                android:layout_width="58dp"
+                                android:layout_height="58dp"
+                                android:layout_marginTop="10dp"
+                                android:clickable="true"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/my_petinfo_add_2x" />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:paddingBottom="30dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginTop="10dp"
+                        android:text="健康监控"
+                        android:textColor="@color/defaultColor"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/ll_mine_planet1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+
+                        <include layout="@layout/time_line" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="27dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_mine_planet2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+
+                        <include layout="@layout/time_line" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="27dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_mine_planet3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+
+                        <include layout="@layout/time_line" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="27dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/ll_mine_planet2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-                <include layout="@layout/time_line"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="27dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/ll_mine_planet3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-                <include layout="@layout/time_line"/>
-            </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
-</com.angelplanets.app.view.PullToZoomScrollView>
+    </com.angelplanets.app.view.PullScrollView>
+
+    <ImageButton
+        android:id="@+id/ib_mine_setting"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_setting_2x" />
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.angelplanets.app.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import com.angelplanets.app.view.CircleImageView;
  */
 public class PerfectInformationActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int REQUEST_CODE = 1;
     private RelativeLayout mBack;
     private TextView mTitle;
     private TextView mConfirm;
@@ -41,6 +43,9 @@ public class PerfectInformationActivity extends AppCompatActivity implements Vie
      */
     private void setlistener() {
         mBack.setOnClickListener(this);
+        rl_icon.setOnClickListener(this);
+        rl_gender.setOnClickListener(this);
+        rl_star.setOnClickListener(this);
     }
 
     /**
@@ -70,6 +75,17 @@ public class PerfectInformationActivity extends AppCompatActivity implements Vie
             case R.id.ib_common_back:
                 finish();
                 overridePendingTransition(R.anim.left_in, R.anim.right_out);
+                break;
+
+            case R.id.rl_icon:
+                break;
+
+            case R.id.rl_gender:
+                startActivityForResult(new Intent(this,GenderActivity.class),REQUEST_CODE);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                break;
+
+            case R.id.rl_star:
                 break;
         }
     }
