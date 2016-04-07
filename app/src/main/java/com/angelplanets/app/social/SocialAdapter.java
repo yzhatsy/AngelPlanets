@@ -1,6 +1,7 @@
 package com.angelplanets.app.social;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
@@ -95,7 +96,6 @@ class SocialAdapter extends BaseAdapter {
         holder.comment.setText("0");
 
         x.image().bind(holder.imageView, URLUtils.rootUrl + socialData.getAvatarUrl(),mImageOptions);
-        // x.image().bind(holder.photo, URLUtils.rootUrl + socialData.getPictures().get(0), mImageOptions);
         //使用imageLoader 加载图片
         final ViewHolder finalHolder = holder;
         imageLoader.displayImage(URLUtils.rootUrl + socialData.getPictures().get(0),holder.photo, options, new SimpleImageLoadingListener() {
@@ -126,17 +126,25 @@ class SocialAdapter extends BaseAdapter {
                 }
         );
 
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context,UserInfoActivity.class));
+            }
+        });
+
+
         return convertView;
     }
 
     class ViewHolder {
-        CircleImageView imageView;
+        CircleImageView imageView;  //头像
         TextView name;
         TextView time;
         TextView detail;
-        TextView praise;
-        TextView comment;
-        SocialImageView photo;
+        TextView praise;         //点赞
+        TextView comment;        //评论
+        SocialImageView photo;   //图片
 
     }
 

@@ -9,7 +9,7 @@ public class URLUtils {
     private static int type = 1;
     private static int userId = 1;
     private static int pageCount = 1;
-    private static int socialType = 1;
+    private static int socialType = 3;
 
     public static int getType() {
         return type;
