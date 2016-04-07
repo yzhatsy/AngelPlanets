@@ -106,12 +106,24 @@ public class URLUtils {
      */
     public static final String LOGIN_URL = rootUrl+"/rest/api/login";
     /**
-     * 获取验证码的url
+     * 获取注册验证码的url
      */
     public static final String OBTAIN_CODE_URL = rootUrl+"/rest/api/sms_code?phonenumber=";
 
     /**
+     * 获取更改密码验证码的url
+     * {"message":"手机号存在，可以更改密码","statusCode":200,"success":true,"data":{"identifyCode":250770,"identifyPhoneNumber":"18720932369","userId":167}}
+     */
+    public static final String OBTAIN_UPDATA_CODE_URL = rootUrl+"/rest/api/sms_changePassword_code?phonenumber=";
+    /**
+     * 更改密码的url
+     */
+    public static final String UPDATE_PWD_URL = rootUrl+"/rest/api/user_info_update";
+    /**
      * 注册的url
      */
     public static final String REGISTER_URL = rootUrl+"/rest/api/register";
+
+    public static final String USER_INFO_URL = rootUrl+"/rest/api/customers/";
+    public static final String BASE ="base";
 }

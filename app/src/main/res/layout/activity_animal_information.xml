@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="-100dp"
-        android:background="#ff646464"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
         android:src="@drawable/shop_customized_bg_2x" />
@@ -32,6 +31,7 @@
     </com.angelplanets.app.view.PullScrollView>
 
     <ImageButton
+        android:id="@+id/back"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="15dp"

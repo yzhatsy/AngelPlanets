@@ -1,5 +1,7 @@
 package com.angelplanets.app;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.angelplanets.app.home.HomePager;
 import com.angelplanets.app.mine.MinePager;
 import com.angelplanets.app.social.SocialPager;
 import com.angelplanets.app.store.StorePager;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.bases.BasePager;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private int mPosition;                //RadioGroup的下标
     private ArrayList<BasePager> mPagers; //装载pager的集合
     private ImageView ib_message; //发布消息
+    Bitmap bitmap ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,5 +163,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return super.onKeyUp(keyCode, event);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       if (resultCode == RESULT_OK && requestCode == Constant.REQUESTCODE){
+           mPosition =3;
+           RadioButton button = (RadioButton) mRadioGroup.getChildAt(mPosition);
+           button.setChecked(true);
+       }
+    }
 }

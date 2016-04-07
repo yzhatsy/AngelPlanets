@@ -15,9 +15,8 @@
             android:layout_height="45dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="手机号:"
                 android:textColor="@color/defaultColor"
                 android:textSize="16sp"
@@ -32,6 +31,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/defaultColor"
                 android:hint="输入手机号"
+                android:singleLine="true"
                 android:textColorHint="#C7C5C3"
                 android:background="@android:color/transparent"/>
         </LinearLayout>
@@ -44,7 +44,7 @@
             android:layout_height="45dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="验证码:"
                 android:textColor="@color/defaultColor"
@@ -58,6 +58,7 @@
                 android:layout_weight="3"
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
+                android:singleLine="true"
                 android:textColor="@color/defaultColor"
                 android:hint="输入验证码"
                 android:textColorHint="#C7C5C3"
@@ -83,9 +84,8 @@
             android:layout_height="45dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="密码:"
                 android:paddingLeft="10dp"
                 android:textColor="@color/defaultColor"
@@ -102,6 +102,7 @@
                 android:textColor="@color/defaultColor"
                 android:hint="输入密码"
                 android:password="true"
+                android:singleLine="true"
                 android:textColorHint="#C7C5C3"
                 android:background="@android:color/transparent"/>
         </LinearLayout>
@@ -114,9 +115,8 @@
             android:layout_height="45dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="确认密码:"
                 android:textColor="@color/defaultColor"
                 android:textSize="16sp"
@@ -133,6 +133,7 @@
                 android:textColor="@color/defaultColor"
                 android:hint="输入密码"
                 android:password="true"
+                android:singleLine="true"
                 android:textColorHint="#C7C5C3"
                 android:background="@android:color/transparent"/>
         </LinearLayout>

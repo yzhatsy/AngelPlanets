@@ -1,6 +1,8 @@
 package com.angelplanets.app.mine;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -16,6 +18,7 @@ public class OwnerInformationActivity extends Activity implements View.OnClickLi
 
     private RelativeLayout mBack;
     private TextView mTitle;
+    private Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,10 @@ public class OwnerInformationActivity extends Activity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_common_back:
+                Bundle bundle = new Bundle();
+               bundle.putParcelable("ICON",bitmap);
+                Intent intent = getIntent().putExtras(bundle);
+                setResult(RESULT_OK,intent);
                 finish();
                 overridePendingTransition(R.anim.left_in, R.anim.right_out);
                 break;

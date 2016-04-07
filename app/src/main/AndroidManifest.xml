@@ -71,7 +71,8 @@
         <activity android:name=".mine.OwnerInformationActivity" />
         <activity android:name=".mine.AnimalInformationActivity" />
         <activity android:name=".mine.setting.SettingActivity" />
-        <activity android:name=".mine.setting.ResponseActivity"></activity>
+        <activity android:name=".mine.setting.ResponseActivity" />
+        <activity android:name=".login.AlterPwdActivity"></activity>
     </application>
 
 </manifest>

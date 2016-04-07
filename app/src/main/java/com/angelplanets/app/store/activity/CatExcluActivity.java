@@ -140,7 +140,6 @@ public class CatExcluActivity extends Activity implements View.OnClickListener {
                 xlv_cat_exclus.onRefreshComplete();
                 //请求成功，解析数据
                 analysisData(s);
-
             }
         }, new Response.ErrorListener() {
             @Override

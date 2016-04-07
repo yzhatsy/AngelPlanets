@@ -367,6 +367,14 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        View view_null = View.inflate(this,R.layout.view_null,null);
+        setContentView(view_null);
+        super.onDestroy();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK ){
