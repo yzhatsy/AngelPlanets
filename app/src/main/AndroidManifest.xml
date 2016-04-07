@@ -3,6 +3,7 @@
     package="com.angelplanets.app">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- 通用权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -68,11 +69,12 @@
         <activity android:name=".login.FindPwdActivity" />
         <activity android:name=".login.PerfectInformationActivity" />
         <activity android:name=".login.GenderActivity" />
-        <activity android:name=".mine.OwnerInformationActivity" />
+        <activity android:name=".mine.personal.OwnerInformationActivity" />
         <activity android:name=".mine.AnimalInformationActivity" />
         <activity android:name=".mine.setting.SettingActivity" />
         <activity android:name=".mine.setting.ResponseActivity" />
-        <activity android:name=".login.AlterPwdActivity"></activity>
+        <activity android:name=".login.AlterPwdActivity" />
+        <activity android:name=".mine.personal.AlterNameActivity"></activity>
     </application>
 
 </manifest>

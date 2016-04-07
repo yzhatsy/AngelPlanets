@@ -20,6 +20,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.angelplanets.app.R;
 import com.angelplanets.app.utils.CUtils;
+import com.angelplanets.app.utils.CacheUtils;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 
 import java.util.HashMap;
@@ -134,7 +136,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (code == 200){
             Toast.makeText(this,"登录成功",Toast.LENGTH_SHORT).show();
             int userId = loginBean.getData().getUserInfo().getUserId();
-           // CacheUtils.setIntToCache(this, Constant.LOGIN_FLAG,userId );
+            CacheUtils.setIntToCache(this, Constant.LOGIN_FLAG, userId);
             finish();
             //overridePendingTransition(R.anim.left_in, R.anim.right_out);
         }else {

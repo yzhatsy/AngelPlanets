@@ -24,7 +24,6 @@
             android:id="@+id/tv_mine_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Karen Grant"
             android:textSize="15dp"
             android:clickable="true"
             android:textColor="#ffffff"
@@ -35,7 +34,6 @@
             android:id="@+id/tv_mine_signature"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="eloquence and the force of his reasoning upon"
             android:textSize="12dp"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"
@@ -66,7 +64,7 @@
                 android:layout_centerInParent="true"
                 android:text="关注0"
                 android:textColor="#8FA6C6"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="0dp"
@@ -86,7 +84,7 @@
                 android:clickable="true"
                 android:text="粉丝0"
                 android:textColor="#8FA6C6"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="0dp"
@@ -104,9 +102,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:clickable="true"
-                android:text="回忆0"
+                android:text="回忆"
                 android:textColor="#8FA6C6"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </RelativeLayout>
 
     </LinearLayout>

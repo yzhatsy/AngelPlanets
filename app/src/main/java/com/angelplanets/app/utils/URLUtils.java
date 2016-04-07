@@ -50,7 +50,7 @@ public class URLUtils {
     /**
      * 根接口
      */
-    public static final String rootUrl = "http://123.57.55.74:8394";
+    public static final String rootUrl = "http://123.57.55.74:8194";
 
     /**
      * 首页banner的url
@@ -124,6 +124,14 @@ public class URLUtils {
      */
     public static final String REGISTER_URL = rootUrl+"/rest/api/register";
 
+
     public static final String USER_INFO_URL = rootUrl+"/rest/api/customers/";
-    public static final String BASE ="base";
+    /**
+     * 用户基本信息的url
+     */
+    public static final String BASE = "/base";
+    /**
+     * 用户宠物信息
+     */
+    public static final String PETS = "/pets";
 }

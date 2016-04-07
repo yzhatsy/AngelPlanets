@@ -10,8 +10,7 @@
         android:layout_height="400dp"
         android:layout_marginTop="-100dp"
         android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        android:src="@drawable/shop_customized_bg_2x" />
+        android:scaleType="centerCrop" />
 
     <com.angelplanets.app.view.PullScrollView
         android:id="@+id/pullScrollview"
@@ -19,7 +18,6 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none"
-        android:clickable="true"
         app:headerHeight="400dp"
         app:headerVisibleHeight="100dp">
 
@@ -134,7 +132,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" />
-
                         <include layout="@layout/time_line" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -148,7 +145,7 @@
         android:layout_height="28dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/icon_setting_2x" />

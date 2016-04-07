@@ -2,6 +2,7 @@ package com.angelplanets.app.mine;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,13 +21,21 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.angelplanets.app.R;
+import com.angelplanets.app.mine.bean.BaseInfoBean;
+import com.angelplanets.app.mine.personal.OwnerInformationActivity;
 import com.angelplanets.app.mine.setting.SettingActivity;
+import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.CacheUtils;
 import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 import com.angelplanets.app.utils.bases.BasePager;
 import com.angelplanets.app.view.CircleImageView;
 import com.angelplanets.app.view.PullScrollView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -63,9 +72,19 @@ public class MinePager extends BasePager {
     @ViewInject(R.id.ll_mine_addplanet)
     private LinearLayout ll_mine_addplanet;
 
+    @ViewInject(R.id.tv_mine_name)
+    private TextView tv_mine_name;//昵称
+
     @ViewInject(R.id.ib_mine_setting)
     private ImageButton mSetting;
+
+    @ViewInject(R.id.tv_mine_signature)
+    private TextView tv_mine_signature;  //签名
+
     RequestQueue requestQueue = Volley.newRequestQueue(mActivity);
+    private DisplayImageOptions options; //处理图片的属性
+    ImageLoader imageLoader = ImageLoader.getInstance();//获取imgeLoader实例
+    private Bitmap bitmap;
     private int userId;
     public MinePager(Activity activity) {
         super(activity);
@@ -83,8 +102,16 @@ public class MinePager extends BasePager {
     public void initData() {
         userId = CacheUtils.getIntFromCache(mActivity,Constant.LOGIN_FLAG);
         pullScrollview.setHeader(mHeadImg);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(mActivity));
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
         setListener();
-        getDataFromNet(URLUtils.USER_INFO_URL + userId + URLUtils.BASE,"base");
+        getDataFromNet(URLUtils.USER_INFO_URL + userId + URLUtils.BASE, "base");
+        Log.e("TAG", "URL = " + URLUtils.USER_INFO_URL + userId + URLUtils.BASE);
     }
 
     /**
@@ -101,9 +128,8 @@ public class MinePager extends BasePager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) { //请求失败
-                Log.e("TAG", "商品详情请求失败： volleyError=" + volleyError);
+                Log.e("TAG", "请求失败： volleyError=" + volleyError);
                 Toast.makeText(mActivity, "网络连接失败", Toast.LENGTH_SHORT).show();
-
             }
         }){
             @Override
@@ -126,6 +152,40 @@ public class MinePager extends BasePager {
      */
     private void analysisData(String s,String type) {
 
+        if (userId == -1) {
+            return;
+        }
+
+        if ("base".equals(type) ){
+            parseBaseData(s);
+        }
+    }
+
+    /**
+     * 解析用户基本信息
+     * @param s
+     */
+    private void parseBaseData(String s) {
+        BaseInfoBean bean = CUtils.getGson().fromJson(s, BaseInfoBean.class);
+        BaseInfoBean.DataEntity data = bean.getData();
+        mStar.setText("关注"+data.getFollowningCount());
+        mFollower.setText("粉丝"+data.getFollowerCount());
+        tv_mine_name.setText(data.getNickname());
+        if (!"".equals(data.getSignature())){
+            tv_mine_signature.setText(data.getSignature());
+        }
+        imageLoader.displayImage("http://123.57.55.74:8394" + data.getAvatarUrl(), iv_mine_icon, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                Log.e("TAG", "图片加载失败.....");
+            }
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                bitmap = loadedImage;
+                Bitmap bluBitmap = CUtils.fastblur(mActivity, loadedImage, 20);
+                mHeadImg.setImageBitmap(bluBitmap);
+            }
+        });
     }
 
     /**
