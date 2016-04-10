@@ -35,6 +35,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ArrayList<BasePager> mPagers; //装载pager的集合
     private ImageView ib_message; //发布消息
     Bitmap bitmap ;
+    public MainActivity(){
+        super();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

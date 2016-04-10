@@ -45,8 +45,7 @@ public class URLUtils {
 
     public static final String USERID = "&userId=";
     public static final String PAGECOUNT = "&pageCount=";
-    public static final String SOCIALTYPE = "&socialType=";
-
+    public static final String SOCIALTYPE = "&socialType=1";
     /**
      * 根接口
      */
@@ -60,7 +59,8 @@ public class URLUtils {
     /**
      * 社交页面list的url
      */
-    public static final String socialUrl = rootUrl+"/rest/api/social/listAll?userId="+userId+"&pageCount="+pageCount+"&socialType="+socialType;
+    public static final String socialUrl = rootUrl+"/rest/api/social/listAll?userId=";
+
 
     /**
      * 商品列表的url
@@ -134,4 +134,11 @@ public class URLUtils {
      * 用户宠物信息
      */
     public static final String PETS = "/pets";
+
+    /**
+     * 回忆的url
+     */
+    public static final String MEMORY_URL =rootUrl+"/rest/api/social/userRememberList?fromId=";
+    public static final String CUSTOMER_ID = "&toId=";
+    public static final String CODE = "&code=";
 }

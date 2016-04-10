@@ -75,7 +75,10 @@
         <activity android:name=".mine.setting.ResponseActivity" />
         <activity android:name=".login.AlterPwdActivity" />
         <activity android:name=".mine.personal.AlterNameActivity" />
-        <activity android:name=".social.UserInfoActivity"></activity>
+        <activity android:name=".social.UserInfoActivity" />
+        <activity android:name=".social.StarListActivity" />
+        <activity android:name=".home.FoundActivity" />
+        <activity android:name=".social.SocialDetailActivity"></activity>
     </application>
 
 </manifest>

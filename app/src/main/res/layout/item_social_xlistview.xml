@@ -18,11 +18,14 @@
             android:layout_height="wrap_content">
 
             <com.angelplanets.app.view.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/iv_social_item_icon"
+                app:civ_border_width="1dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:civ_border_color="#f1f1f1"/>
 
             <TextView
                 android:id="@+id/tv_social_item_name"
@@ -31,7 +34,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="9dp"
                 android:layout_toRightOf="@+id/iv_social_item_icon"
-                android:text="Christian Black"
                 android:textColor="@color/defaultColor"
                 android:textSize="13dp" />
 
@@ -42,7 +44,6 @@
                 android:layout_alignLeft="@+id/tv_social_item_name"
                 android:layout_below="@+id/tv_social_item_name"
                 android:layout_marginTop="2dp"
-                android:text="13:20"
                 android:textColor="@color/defaultColor"
                 android:textSize="13dp" />
         </RelativeLayout>
@@ -52,7 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="aaaaaaaa"
             android:textColor="@color/defaultColor"
             android:textSize="13dp" />
 
@@ -64,7 +64,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="13dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/social_message_bg_2x"
             android:scaleType="fitXY" />
     </LinearLayout>
 
@@ -100,7 +99,7 @@
 
         <View
             android:layout_width="1dp"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="#D8D8D8" />
 

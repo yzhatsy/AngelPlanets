@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -9,43 +11,72 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/ll_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:orientation="horizontal"
             android:visibility="gone">
+
             <TextView
+                android:id="@+id/tv_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#333333"
-                android:text="今天"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_day_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
                 android:textColor="#333333"
-                android:layout_marginLeft="4dp"
-                android:text="8:00"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"/>
         </LinearLayout>
+
         <TextView
+            android:id="@+id/tv_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
             android:layout_marginLeft="30dp"
             android:text="8:00"
-            android:textSize="14sp"/>
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:visibility="gone"/>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:paddingLeft="30dp"
-        android:orientation="horizontal">
-        <ImageView
+        android:orientation="horizontal"
+        android:paddingLeft="30dp">
+
+        <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_height="80dp">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/page_count"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="3dp"/>
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/tv_descirbe"
             android:layout_width="match_parent"
@@ -54,7 +85,7 @@
             android:layout_marginRight="15dp"
             android:text="我爱奢宠计划"
             android:textColor="#878787"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>

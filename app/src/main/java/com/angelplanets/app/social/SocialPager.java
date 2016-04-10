@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.angelplanets.app.R;
 import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.CacheUtils;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 import com.angelplanets.app.utils.bases.BasePager;
 import com.angelplanets.app.view.XListView;
@@ -30,10 +32,13 @@ import java.util.List;
  */
 public class SocialPager extends BasePager implements View.OnClickListener {
 
+    private static final int PAGE_COUNTS = 1;
     private XListView mXListView;
     private LinearLayout mTopPart;
     private ImageButton mNotify;//消息通知
     private int mPosition;
+    private int mUserId;
+    private int mPage =  URLUtils.getPageCount();
 
     /**
      * 社交页面接口数据集合
@@ -59,16 +64,19 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         socialDatas = new ArrayList<>();
         setListener();
         mXListView.setPullRefreshEnable(true); //设置可下拉刷新
-        mXListView.setPullLoadEnable(true,"null");//设置可上拉加载更多
+        mXListView.setPullLoadEnable(true, "null");//设置可上拉加载更多
+        //获取id
+        mUserId = CacheUtils.getIntFromCache(mActivity, Constant.LOGIN_FLAG);
         mXListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                getDataFromNet();
+                getDataFromNet(PAGE_COUNTS);
             }
 
             @Override
             public void onLoadMore() {
-                getDataFromNet();
+                mPage++;
+                getDataFromNet(mPage);
             }
         });
         mXListView.setOnScrollListener(new XOnScrollListener());
@@ -77,7 +85,7 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         String s = CacheUtils.readTextFile(URLUtils.socialUrl);
         Log.e("TAG","------------------"+s);
         if (TextUtils.isEmpty(s)) {
-            getDataFromNet();
+            getDataFromNet(PAGE_COUNTS);
             return;
         }
         parseData(s);
@@ -95,8 +103,12 @@ public class SocialPager extends BasePager implements View.OnClickListener {
     /**
      * 从网络中获取数据
      */
-    private void getDataFromNet() {
-        RequestParams params = new RequestParams(URLUtils.socialUrl);
+    private void getDataFromNet(int page) {
+        if (page == 1){
+            mPage = 1;
+        }
+        String url = URLUtils.socialUrl+mUserId+URLUtils.PAGECOUNT+page+URLUtils.SOCIALTYPE;
+        RequestParams params = new RequestParams(url);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -110,6 +122,9 @@ public class SocialPager extends BasePager implements View.OnClickListener {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("TAG", "网络请求失败......" + ex);
+                mXListView.stopRefresh();
+                mXListView.stopLoadMore();
+                Toast.makeText(mActivity, "网络连接失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -120,6 +135,7 @@ public class SocialPager extends BasePager implements View.OnClickListener {
             @Override
             public void onFinished() {
                 mXListView.stopRefresh();
+                mXListView.stopLoadMore();
                 mXListView.setRefreshTime(CUtils.getCurrentTime());
             }
         });
@@ -132,12 +148,19 @@ public class SocialPager extends BasePager implements View.OnClickListener {
      */
     private void parseData(String result) {
         SocialBean socialBean = new Gson().fromJson(result, SocialBean.class);
-        socialDatas = socialBean.getData();
 
+        int size = socialDatas.size();
+        //得到集合数据
+        if (mPage == 1){
+            socialDatas = socialBean.getData();
+        }else {
+            socialDatas.addAll(socialBean.getData());
+        }
         mXListView.addHeaderView(mTopPart);
         mXListView.setAdapter(new SocialAdapter(mActivity, socialDatas));
-        mXListView.getListView().setSelection(mPosition);
-
+        if (mPage != 1){
+            mXListView.getListView().setSelection(mPosition);
+        }
     }
 
     /**

@@ -94,6 +94,7 @@ public class MinePager extends BasePager {
     protected View getView() {
        View view = View.inflate(mActivity, R.layout.pager_mine,null);
         x.view().inject(this, view);
+        pullScrollview.setHeader(mHeadImg);
         return view;
     }
 
@@ -101,7 +102,6 @@ public class MinePager extends BasePager {
     @Override
     public void initData() {
         userId = CacheUtils.getIntFromCache(mActivity,Constant.LOGIN_FLAG);
-        pullScrollview.setHeader(mHeadImg);
         imageLoader.init(ImageLoaderConfiguration.createDefault(mActivity));
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)

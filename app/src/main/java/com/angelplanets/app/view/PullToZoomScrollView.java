@@ -40,6 +40,7 @@ public class PullToZoomScrollView extends ScrollView{
 
         @Override
         protected void onFinishInflate() {
+            super.onFinishInflate();
             if (getChildCount() > 0) {
                 this.mView = getChildAt(0);
             }

@@ -383,6 +383,5 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             return false;
         }
         return false;
-
     }
 }

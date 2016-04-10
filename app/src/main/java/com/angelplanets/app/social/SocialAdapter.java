@@ -3,6 +3,7 @@ package com.angelplanets.app.social;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.angelplanets.app.R;
 import com.angelplanets.app.utils.CUtils;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 import com.angelplanets.app.view.CircleImageView;
 import com.angelplanets.app.view.SocialImageView;
@@ -88,12 +90,11 @@ class SocialAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        SocialBean.SocialData socialData = socialDatas.get(position);
+        final SocialBean.SocialData socialData = socialDatas.get(position);
         holder.name.setText(socialData.getNickname());
         holder.time.setText(""+CUtils.getStandardDate(socialData.getUpdateTime()));
         holder.detail.setText(""+socialData.getDetail());
         holder.praise.setText(""+socialData.getCollectCount());
-        holder.comment.setText("0");
 
         x.image().bind(holder.imageView, URLUtils.rootUrl + socialData.getAvatarUrl(),mImageOptions);
         //使用imageLoader 加载图片
@@ -102,7 +103,6 @@ class SocialAdapter extends BaseAdapter {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
-
                     @Override
                     public void onLoadingFailed(String imageUri, View view,
                                                 FailReason failReason) {
@@ -129,7 +129,20 @@ class SocialAdapter extends BaseAdapter {
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context,UserInfoActivity.class));
+                Intent intent = new Intent(context, UserInfoActivity.class);
+                intent.putExtra(Constant.CUSTOMER_ID, socialData.getCustomerId());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SocialDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SOCIAL_DATA", socialData);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
 

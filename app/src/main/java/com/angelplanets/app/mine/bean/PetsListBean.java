@@ -15,7 +15,7 @@ public class PetsListBean {
      * data : [{"id":116,"name":"呵呵","avatarUrl":....."}]
      */
 
-    private Object message;
+    private String message;
     private int statusCode;
     private boolean success;
     /**
@@ -26,7 +26,7 @@ public class PetsListBean {
 
     private List<DataEntity> data;
 
-    public void setMessage(Object message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
@@ -42,7 +42,7 @@ public class PetsListBean {
         this.data = data;
     }
 
-    public Object getMessage() {
+    public String getMessage() {
         return message;
     }
 
@@ -61,7 +61,7 @@ public class PetsListBean {
     public static class DataEntity {
         private int id;
         private String name;
-        private Object avatarUrl;
+        private String avatarUrl;
 
         public void setId(int id) {
             this.id = id;
@@ -71,7 +71,7 @@ public class PetsListBean {
             this.name = name;
         }
 
-        public void setAvatarUrl(Object avatarUrl) {
+        public void setAvatarUrl(String avatarUrl) {
             this.avatarUrl = avatarUrl;
         }
 
@@ -83,7 +83,7 @@ public class PetsListBean {
             return name;
         }
 
-        public Object getAvatarUrl() {
+        public String getAvatarUrl() {
             return avatarUrl;
         }
     }

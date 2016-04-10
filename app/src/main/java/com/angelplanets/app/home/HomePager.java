@@ -1,6 +1,7 @@
 package com.angelplanets.app.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelplanets.app.R;
@@ -44,6 +46,8 @@ public class HomePager extends BasePager {
     @ViewInject(R.id.gv_home_star)
     private MyGridView mGridView;
 
+    @ViewInject(R.id.rl_find)
+    private RelativeLayout rl_find;
     private List<BannerBean.BannerEntity> bannerData;  //装载banner数据的集合
 
     private ImageOptions mImageOptions;//图片处理属性
@@ -88,8 +92,22 @@ public class HomePager extends BasePager {
         }
 
         mGridView.setAdapter(new GridAdapter());
+        rl_find.setOnClickListener(new HomeOnclickListener());
+
     }
 
+    /**
+     * 点击监听
+     */
+    class HomeOnclickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if (v == rl_find){
+                mActivity.startActivity(new Intent(mActivity,FoundActivity.class));
+            }
+        }
+    }
     /**
      * 自定义GridView 的适配器
      */

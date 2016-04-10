@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/family_pho_2x"
             android:layout_marginTop="60dp"
-            app:civ_border_color="@android:color/white"/>
+            app:civ_border_color="#f1f1f1"/>
         <TextView
             android:id="@+id/tv_mine_name"
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:layout_weight="1">
             <View
                 android:layout_width="1dp"
-                android:layout_height="10dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:background="#D8D8D8"/>
             <TextView

@@ -10,31 +10,58 @@
         android:layout_height="400dp"
         android:layout_marginTop="-100dp"
         android:contentDescription="@null"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <com.angelplanets.app.view.PullScrollView
-        android:id="@+id/animal_pullScrollview"
+        android:id="@+id/user_pullScrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none"
         app:headerHeight="400dp"
         app:headerVisibleHeight="100dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/user_info_top"/>
-            <View android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f1f1f1"/>
-            <include layout="@layout/user_info_center_group"/>
-            <View android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f1f1f1"/>
-            <ListView
+
+            <include layout="@layout/user_info_top" />
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="10dp"
+                android:background="#f1f1f1" />
+
+            <include layout="@layout/user_info_center_group" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#f1f1f1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.angelplanets.app.view.MyListView
+                    android:id="@+id/ll_user_describe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:divider="@null" />
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/defaultColor"
+                    android:text="这个人很懒哦~ 什么也没留下"
+                    android:visibility="gone"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </com.angelplanets.app.view.PullScrollView>
@@ -43,12 +70,11 @@
         android:id="@+id/back"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:clickable="false"
         android:scaleType="fitXY"
-        android:src="@drawable/back_2x"
-        />
+        android:src="@drawable/back_2x" />
 
 </RelativeLayout>

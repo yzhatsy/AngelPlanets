@@ -83,8 +83,10 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_find"
             android:layout_width="50dp"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:clickable="true">
 
             <ImageView
                 android:layout_width="wrap_content"

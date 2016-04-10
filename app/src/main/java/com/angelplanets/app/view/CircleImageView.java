@@ -19,6 +19,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.angelplanets.app.R;
