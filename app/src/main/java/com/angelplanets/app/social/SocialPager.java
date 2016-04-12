@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.angelplanets.app.R;
+import com.angelplanets.app.social.activity.NotifyActivity;
+import com.angelplanets.app.social.bean.SocialBean;
 import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.CacheUtils;
 import com.angelplanets.app.utils.Constant;
@@ -66,7 +68,7 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         mXListView.setPullRefreshEnable(true); //设置可下拉刷新
         mXListView.setPullLoadEnable(true, "null");//设置可上拉加载更多
         //获取id
-        mUserId = CacheUtils.getIntFromCache(mActivity, Constant.LOGIN_FLAG);
+
         mXListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
@@ -107,12 +109,13 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         if (page == 1){
             mPage = 1;
         }
+        mUserId = CacheUtils.getIntFromCache(mActivity, Constant.LOGIN_FLAG);
         String url = URLUtils.socialUrl+mUserId+URLUtils.PAGECOUNT+page+URLUtils.SOCIALTYPE;
         RequestParams params = new RequestParams(url);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("TAG", "网络请求成功......" + result);
+                Log.e("TAG", "社交 网络请求成功......" + result);
                 //缓存数据到本地
                 CacheUtils.saveTextFile(URLUtils.socialUrl, result);
                 //解析数据

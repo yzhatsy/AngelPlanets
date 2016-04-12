@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:background="#ffffff"
     android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp">
-
+>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#f1f1f1"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-        <com.angelplanets.app.view.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.angelplanets.app.view.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/iv_detail_item_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -41,22 +45,37 @@
             android:textColor="@color/defaultColor"
             android:textSize="13dp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+           android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_detail_item_name">
+            <ImageView
+                android:id="@+id/iv_toplike"
+                android:layout_width="21dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/icon_good" />
         <TextView
             android:id="@+id/tv_detail_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/tv_detail_item_name"
             android:text="0"
             android:textColor="@color/defaultColor"
             android:textSize="14sp" />
+
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <com.angelplanets.app.view.SocialImageView
             android:id="@+id/iv_social_item_photo"
@@ -74,9 +93,9 @@
             android:layout_marginRight="7dp"
             android:background="@drawable/page_count"
             android:gravity="center"
-            android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView
@@ -85,13 +104,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/defaultColor"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:textSize="13dp" />
 
     <LinearLayout
         android:id="@+id/ll_detail_group"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <TextView
             android:id="@+id/tv_label1"
@@ -101,7 +124,7 @@
             android:text="Label"
             android:textColor="@color/defaultColor"
             android:textSize="12sp"
-            />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_label2"
@@ -111,7 +134,7 @@
             android:text="Label"
             android:textColor="@color/defaultColor"
             android:textSize="12sp"
-            />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_label3"
@@ -121,19 +144,34 @@
             android:text="Label"
             android:textColor="@color/defaultColor"
             android:textSize="12sp"
-            />
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f1f1f1" />
+        android:background="#f1f1f1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <com.angelplanets.app.view.MyListView
         android:id="@+id/lv_user_describe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
         android:divider="@null"
-        android:paddingBottom="10dp" />
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="20dp" />
+    <TextView
+        android:id="@+id/tv_no_comment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="15dp"
+        android:gravity="center_horizontal"
+        android:text="暂无评论"
+        android:textSize="13dp"
+        android:textColor="@color/defaultColor"
+        android:visibility="gone"/>
 
 </LinearLayout>

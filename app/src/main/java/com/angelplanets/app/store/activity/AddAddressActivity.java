@@ -74,6 +74,7 @@ public class AddAddressActivity extends Activity implements View.OnClickListener
         tv_common_title.setText("新建地址");
         ib_common_back.setOnClickListener(this);
         mSave.setOnClickListener(this);
+
     }
 
     @Override

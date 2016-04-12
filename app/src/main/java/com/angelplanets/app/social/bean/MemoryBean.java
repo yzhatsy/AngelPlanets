@@ -1,4 +1,4 @@
-package com.angelplanets.app.social;
+package com.angelplanets.app.social.bean;
 
 import java.util.List;
 

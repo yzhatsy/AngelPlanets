@@ -1,8 +1,8 @@
 package com.angelplanets.app.mine.setting;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -13,7 +13,7 @@ import com.angelplanets.app.R;
  * 帮助与反馈页面
  * Created by 123 on 2016/4/6.
  */
-public class ResponseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ResponseActivity extends Activity implements View.OnClickListener {
 
     private RelativeLayout mBack;
     private EditText et_idea;

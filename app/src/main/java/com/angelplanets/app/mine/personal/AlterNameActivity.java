@@ -1,7 +1,7 @@
 package com.angelplanets.app.mine.personal;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +15,7 @@ import com.angelplanets.app.R;
  * 修改姓名的页面
  * Created by 123 on 2016/4/7.
  */
-public class AlterNameActivity extends AppCompatActivity implements View.OnClickListener {
+public class AlterNameActivity extends Activity implements View.OnClickListener {
 
     private RelativeLayout mBack;
     private TextView mTitle;

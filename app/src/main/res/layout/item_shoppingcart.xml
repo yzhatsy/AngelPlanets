@@ -194,6 +194,8 @@
                 android:background="@drawable/edit_text_shape"
                 android:hint="根据具体需要选择商品款式"
                 android:paddingLeft="3dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:singleLine="true"
                 android:textColor="#848484"
                 android:textColorHint="#BABABA"

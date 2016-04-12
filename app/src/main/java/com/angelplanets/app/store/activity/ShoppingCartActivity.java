@@ -1,6 +1,5 @@
 package com.angelplanets.app.store.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.angelplanets.app.R;
+import com.angelplanets.app.mine.EditTextActivity;
 import com.angelplanets.app.store.adapter.ShoppingCatAdapter;
 import com.angelplanets.app.store.bean.ShoppingCartBean;
 import com.angelplanets.app.utils.CUtils;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-public class ShoppingCartActivity extends Activity implements ShoppingCatAdapter.OnItemCountModify, ShoppingCatAdapter.OnItemChecked, View.OnClickListener {
+public class ShoppingCartActivity extends EditTextActivity implements ShoppingCatAdapter.OnItemCountModify, ShoppingCatAdapter.OnItemChecked, View.OnClickListener {
 
     private RelativeLayout ib_common_back;
     private TextView tv_common_title;
@@ -58,9 +58,14 @@ public class ShoppingCartActivity extends Activity implements ShoppingCatAdapter
     private int mCommidityIdFromDetail;
 
 
-    @Override
+  /*  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }*/
+
+    @Override
+    public void iniView() {
         setContentView(R.layout.activity_shopping_cart);
 
         initData();

@@ -45,11 +45,11 @@ public class URLUtils {
 
     public static final String USERID = "&userId=";
     public static final String PAGECOUNT = "&pageCount=";
-    public static final String SOCIALTYPE = "&socialType=1";
+    public static final String SOCIALTYPE = "&socialType=3";
     /**
      * 根接口
      */
-    public static final String rootUrl = "http://123.57.55.74:8194";
+    public static final String rootUrl = "http://123.57.55.74:8394";
 
     /**
      * 首页banner的url
@@ -61,7 +61,19 @@ public class URLUtils {
      */
     public static final String socialUrl = rootUrl+"/rest/api/social/listAll?userId=";
 
-
+    /**
+     * 社交详情的url
+     */
+    public static final String SOCIAL_DETAIL_URL = rootUrl+"/rest/api/socials/";
+    /**
+     * 评论列表的url
+     */
+    public static final String COMMENT_URL =rootUrl+"/rest/api/socialComment/listAll?fromId=";
+    public static final String SOCIAL_ID = "&socialId=";
+    /**
+     * 添加评论的url post请求
+     */
+    public static final String ADD_COMMENT_URL = rootUrl+"/rest/api/socialComment/add";
     /**
      * 商品列表的url
      */

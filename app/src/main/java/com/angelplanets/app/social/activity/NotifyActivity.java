@@ -1,4 +1,4 @@
-package com.angelplanets.app.social;
+package com.angelplanets.app.social.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

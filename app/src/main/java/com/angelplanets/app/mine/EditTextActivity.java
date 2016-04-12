@@ -71,15 +71,15 @@ public abstract class EditTextActivity extends Activity {
     }
 
     // 点击空白区域 自动隐藏软键盘
-    public boolean onTouchEvent(MotionEvent event) {
+   /* public boolean onTouchEvent(MotionEvent event) {
         if(null != this.getCurrentFocus()){
-            /**
+            *//**
              * 点击空白位置 隐藏软键盘
-             */
+             *//*
             InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super .onTouchEvent(event);
-    }
+    }*/
 }
 

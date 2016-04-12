@@ -3,7 +3,6 @@ package com.angelplanets.app.social;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelplanets.app.R;
+import com.angelplanets.app.social.bean.SocialBean;
+import com.angelplanets.app.social.activity.SocialDetailActivity;
+import com.angelplanets.app.social.activity.UserInfoActivity;
 import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
@@ -31,6 +33,7 @@ import org.xutils.x;
 import java.util.List;
 
 /**
+ * 社交页面的adapter
  * Created by 123 on 2016/3/11.
  */
 class SocialAdapter extends BaseAdapter {
@@ -139,9 +142,9 @@ class SocialAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SocialDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("SOCIAL_DATA", socialData);
-                intent.putExtras(bundle);
+                intent.putExtra("SOCIAL_ID",socialData.getSocialId());
+                intent.putExtra(Constant.CUSTOMER_ID,socialData.getCustomerId());
+                Log.e("TAG","social_id = "+socialData.getSocialId());
                 context.startActivity(intent);
             }
         });

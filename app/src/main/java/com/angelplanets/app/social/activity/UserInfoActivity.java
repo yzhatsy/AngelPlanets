@@ -1,10 +1,10 @@
-package com.angelplanets.app.social;
+package com.angelplanets.app.social.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.angelplanets.app.R;
 import com.angelplanets.app.mine.bean.BaseInfoBean;
 import com.angelplanets.app.mine.bean.PetsListBean;
+import com.angelplanets.app.social.bean.MemoryBean;
 import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.CacheUtils;
 import com.angelplanets.app.utils.Constant;
@@ -176,15 +177,19 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         petList = bean.getData();
 
         for (int i=0; i<petList.size(); i++){
-            CircleImageView imageView = new CircleImageView(this);
-            imageView.setBorderWidth(2);
-            imageView.setBorderColor(Color.parseColor("#f1f1f1"));
-            x.image().bind(imageView, URLUtils.rootUrl+petList.get(i).getAvatarUrl());
+
+            View view = View.inflate(this,R.layout.user_imageview,null);
+            CircleImageView imageView = (CircleImageView) view.findViewById(R.id.iv_user_icon);
+            if (TextUtils.isEmpty(petList.get(i).getAvatarUrl())){
+                x.image().bind(imageView,"http://123.57.55.74:8394/pic/common/pet_default.jpg");
+            }else {
+                x.image().bind(imageView, URLUtils.rootUrl+petList.get(i).getAvatarUrl());
+            }
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(58), DensityUtil.dip2px(58));
             params.rightMargin = DensityUtil.dip2px(20);
             params.gravity = Gravity.CENTER_VERTICAL;
             imageView.setLayoutParams(params);
-            ll_mine_addplanet.addView(imageView);
+            ll_mine_addplanet.addView(view);
 
         }
     }

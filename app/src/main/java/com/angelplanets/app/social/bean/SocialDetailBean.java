@@ -1,4 +1,4 @@
-package com.angelplanets.app.social;
+package com.angelplanets.app.social.bean;
 
 import java.util.List;
 
@@ -8,33 +8,9 @@ import java.util.List;
  */
 public class SocialDetailBean {
 
-    /**
-     * message : null
-     * statusCode : 200
-     * success : true
-     * data : {"socialId":274,"customerId":132,"detail":"豆汁儿和哈尼在牧云山居的团聚","accessType":1,"photos":"/pic/cut/social/2016-02-23/CUT-a162b2fb-c7e0-447d-a223-cf766f88b338@320_426.jpg,/pic/social/2016-02-23/a162b2fb-c7e0-447d-a223-cf766f88b338.jpg,/pic/social/2016-02-23/d9031e00-c8dd-4d7b-bcdc-046310a1d5a5.jpg,/pic/social/2016-02-23/17e68096-3034-4550-b766-2a0e146d38b1.jpg,/pic/social/2016-02-23/8ff47538-f221-4014-a2a0-9eb49736173d.jpg","createTime":1456220780000,"updateTime":1456220780000,"collectCount":13,"commentCount":2,"shareCount":0,"customer":{"id":132,"username":null,"nickname":"豆汁儿妈","phonenumber":null,"sex":null,"age":null,"avatarUrl":"/pic/customer/2016-02-23/4cb98746-883c-4bda-9797-d89238dca229.jpg","petType":null,"signature":null},"photoList":["/pic/cut/social/2016-02-23/CUT-a162b2fb-c7e0-447d-a223-cf766f88b338@320_426.jpg","/pic/social/2016-02-23/a162b2fb-c7e0-447d-a223-cf766f88b338.jpg","/pic/social/2016-02-23/d9031e00-c8dd-4d7b-bcdc-046310a1d5a5.jpg","/pic/social/2016-02-23/17e68096-3034-4550-b766-2a0e146d38b1.jpg","/pic/social/2016-02-23/8ff47538-f221-4014-a2a0-9eb49736173d.jpg"],"tag1":null,"tag2":null,"tag3":null}
-     */
-
     private String message;
     private int statusCode;
     private boolean success;
-    /**
-     * socialId : 274
-     * customerId : 132
-     * detail : 豆汁儿和哈尼在牧云山居的团聚
-     * accessType : 1
-     * photos : /pic/cut/social/2016-02-23/CUT-a162b2fb-c7e0-447d-a223-cf766f88b338@320_426.jpg,/pic/social/2016-02-23/a162b2fb-c7e0-447d-a223-cf766f88b338.jpg,/pic/social/2016-02-23/d9031e00-c8dd-4d7b-bcdc-046310a1d5a5.jpg,/pic/social/2016-02-23/17e68096-3034-4550-b766-2a0e146d38b1.jpg,/pic/social/2016-02-23/8ff47538-f221-4014-a2a0-9eb49736173d.jpg
-     * createTime : 1456220780000
-     * updateTime : 1456220780000
-     * collectCount : 13
-     * commentCount : 2
-     * shareCount : 0
-     * customer : {"id":132,"username":null,"nickname":"豆汁儿妈","phonenumber":null,"sex":null,"age":null,"avatarUrl":"/pic/customer/2016-02-23/4cb98746-883c-4bda-9797-d89238dca229.jpg","petType":null,"signature":null}
-     * photoList : ["/pic/cut/social/2016-02-23/CUT-a162b2fb-c7e0-447d-a223-cf766f88b338@320_426.jpg","/pic/social/2016-02-23/a162b2fb-c7e0-447d-a223-cf766f88b338.jpg","/pic/social/2016-02-23/d9031e00-c8dd-4d7b-bcdc-046310a1d5a5.jpg","/pic/social/2016-02-23/17e68096-3034-4550-b766-2a0e146d38b1.jpg","/pic/social/2016-02-23/8ff47538-f221-4014-a2a0-9eb49736173d.jpg"]
-     * tag1 : null
-     * tag2 : null
-     * tag3 : null
-     */
 
     private DataEntity data;
 
