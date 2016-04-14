@@ -93,6 +93,8 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
     private String commentUrl;
     private LinearLayout ll_like;
     private LinearLayout ll_bottom_like;
+    private String commentFlag;
+    private int mPosition;   //在socialPager的Item的位置 ，回调时用到
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,17 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         getDataFromNet(collectsUrl, "collects");
         getDataFromNet(detailUrl, "detail");
         setListener();
+       commentFlag = getIntent().getStringExtra("COMMENT_FLAG");
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if ("COMMENT".equals(commentFlag)){   //从评论出进来
+            toComment(mSocialId, mUserId, "");
+            commentFlag = "";
+        }
     }
 
     /**
@@ -127,6 +139,7 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         queue = Volley.newRequestQueue(this);
         mSocialId = getIntent().getIntExtra("SOCIAL_ID", -1);
         mCustomerId = getIntent().getIntExtra(Constant.CUSTOMER_ID, -1);
+        mPosition = getIntent().getIntExtra("POSITION",-1);
         mBack = (RelativeLayout) findViewById(R.id.ib_common_back);
         mTitle = (TextView) findViewById(R.id.tv_common_title);
         mBack.setVisibility(View.VISIBLE);
@@ -349,6 +362,7 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
             case R.id.rl_like:
             case R.id.iv_toplike:
                 changeLikeState();
+                sendcast();    //发送广播
                 break;
             case R.id.tv_comment:
                 toComment(mSocialId, mUserId, "");
@@ -360,6 +374,20 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
+    }
+
+    /**
+     * 发送广播通知
+     */
+    private void sendcast() {
+        Intent intent = new Intent();
+        intent.setAction("com.angelplanets.app.broadcast");
+
+        //要发送的内容
+        intent.putExtra("TOLIKE", likeCount);
+        intent.putExtra("POSTION_BACK", mPosition);
+        //发送 一个无序广播
+        SocialDetailActivity.this.sendBroadcast(intent);
     }
 
     /**
@@ -465,12 +493,14 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
             collectState = 1;
             iv_like.setImageResource(R.drawable.icon_good_selected);
             iv_toplike.setImageResource(R.drawable.icon_good_selected);
+            toLike(collectState);
             likeCount++;
             mTopLikeCount.setText("" + likeCount);
         } else if (collectState == 1) {
             collectState = 0;
             iv_like.setImageResource(R.drawable.icon_good);
             iv_toplike.setImageResource(R.drawable.icon_good);
+            toLike(collectState);
             likeCount--;
             mTopLikeCount.setText("" + likeCount);
         } else {//没网状态为保证用户体验正常，设置的模拟点赞
@@ -491,6 +521,36 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         }
 
     }
+
+    /**
+     * 点赞的动作
+     * @param status
+     */
+    private void toLike(final int status) {
+        String collectsUrl = URLUtils.LIKE_STATE_URL + mSocialId + "/" + mUserId;
+        RequestQueue requestQueue = Volley.newRequestQueue(SocialDetailActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, collectsUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("TAG", "toLike---- " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            @Override
+            protected Map<String,String> getParams() {
+                //在这里设置需要post的参数
+                Map<String,String> map = new HashMap();
+                map.put("status",status+"");
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
 
     @Override
     protected void onDestroy() {

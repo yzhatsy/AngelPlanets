@@ -1,8 +1,10 @@
 package com.angelplanets.app.social;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -41,7 +43,7 @@ public class SocialPager extends BasePager implements View.OnClickListener {
     private int mPosition;
     private int mUserId;
     private int mPage =  URLUtils.getPageCount();
-
+    private SocialAdapter mAdapter;
     /**
      * 社交页面接口数据集合
      */
@@ -83,17 +85,41 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         });
         mXListView.setOnScrollListener(new XOnScrollListener());
 
-        //从本地读取缓存数据并解析
+       /* //从本地读取缓存数据并解析
         String s = CacheUtils.readTextFile(URLUtils.socialUrl);
         Log.e("TAG","------------------"+s);
         if (TextUtils.isEmpty(s)) {
             getDataFromNet(PAGE_COUNTS);
             return;
         }
-        parseData(s);
-        //getDataFromNet();
+        parseData(s);*/
+        getDataFromNet(PAGE_COUNTS);
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.angelplanets.app.broadcast");
+        mActivity.registerReceiver(new SocialBroadcastReciver(),filter);
     }
+
+    class SocialBroadcastReciver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           String action = intent.getAction();
+            if ("com.angelplanets.app.broadcast".equals(action)){
+                int position = intent.getIntExtra("POSTION_BACK",-1);
+                if (position != -1){
+                    int likeCount = intent.getIntExtra("TOLIKE",-1);
+                    if (likeCount != -1){
+                        socialDatas.get(position).setCollectCount(likeCount);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+
+
+            }
+        }
+    }
+
 
     /**
      * 设置view的监听
@@ -117,7 +143,7 @@ public class SocialPager extends BasePager implements View.OnClickListener {
             public void onSuccess(String result) {
                 Log.e("TAG", "社交 网络请求成功......" + result);
                 //缓存数据到本地
-                CacheUtils.saveTextFile(URLUtils.socialUrl, result);
+                //CacheUtils.saveTextFile(URLUtils.socialUrl, result);
                 //解析数据
                 parseData(result);
             }
@@ -160,10 +186,12 @@ public class SocialPager extends BasePager implements View.OnClickListener {
             socialDatas.addAll(socialBean.getData());
         }
         mXListView.addHeaderView(mTopPart);
-        mXListView.setAdapter(new SocialAdapter(mActivity, socialDatas));
+        mAdapter = new SocialAdapter(mActivity, socialDatas,mUserId);
+        mXListView.setAdapter(mAdapter);
         if (mPage != 1){
             mXListView.getListView().setSelection(mPosition);
         }
+
     }
 
     /**
@@ -186,7 +214,6 @@ public class SocialPager extends BasePager implements View.OnClickListener {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
 
         }
-
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             mPosition = firstVisibleItem;

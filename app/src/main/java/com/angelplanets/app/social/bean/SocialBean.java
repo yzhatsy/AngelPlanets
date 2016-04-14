@@ -33,6 +33,7 @@ public class SocialBean {
         private String signature;
         private List<String> pictures;
 
+
         public void setSocialId(int socialId) {
             this.socialId = socialId;
         }

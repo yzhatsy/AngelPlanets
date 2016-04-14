@@ -211,17 +211,34 @@ public class UserInfoActivity extends Activity implements View.OnClickListener, 
         if (!"".equals(data.getSignature())){
             tv_mine_signature.setText(data.getSignature());
         }
-        imageLoader.displayImage(URLUtils.rootUrl + data.getAvatarUrl(), iv_mine_icon, options, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Log.e("TAG", "图片加载失败.....");
-            }
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                Bitmap bluBitmap = CUtils.fastblur(UserInfoActivity.this, loadedImage, 20);
-                background_img.setImageBitmap(bluBitmap);
-            }
-        });
+        if (TextUtils.isEmpty(data.getAvatarUrl())){
+            imageLoader.displayImage("http://123.57.55.74:8394/pic/common/customer_default.jpg", iv_mine_icon, options, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    Bitmap bluBitmap = CUtils.fastblur(UserInfoActivity.this, loadedImage, 20);
+                    background_img.setImageBitmap(bluBitmap);
+                }
+            });
+        }else{
+                imageLoader.displayImage(URLUtils.rootUrl + data.getAvatarUrl(), iv_mine_icon, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.e("TAG", "图片加载失败.....");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        Bitmap bluBitmap = CUtils.fastblur(UserInfoActivity.this, loadedImage, 20);
+                        background_img.setImageBitmap(bluBitmap);
+                    }
+                });
+        }
+
+
     }
 
 

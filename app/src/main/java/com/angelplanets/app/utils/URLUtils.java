@@ -82,6 +82,7 @@ public class URLUtils {
      * 是否点赞的状态url
      */
     public static final String LIKE_STATE_URL = rootUrl+"/rest/api/socialCollects/";
+
     /**
      * 商品列表的url
      */

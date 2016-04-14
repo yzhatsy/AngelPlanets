@@ -74,28 +74,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:background="#ffffff"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:paddingTop="12dp">
+        android:paddingTop="12dp"
+        >
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/rl_item_like"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_itm_like"
+                android:layout_width="21dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/icon_good_2x"/>
             <TextView
                 android:id="@+id/tv_social_item_praise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableLeft="@drawable/icon_good_2x"
-                android:drawablePadding="5dp"
                 android:text="0"
                 android:textColor="@color/defaultColor"
                 android:textSize="13dp" />
-        </RelativeLayout>
+
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
@@ -115,7 +122,6 @@
                 android:layout_centerInParent="true"
                 android:drawableLeft="@drawable/icon_comment_2x"
                 android:drawablePadding="5dp"
-                android:text="0"
                 android:textColor="@color/defaultColor"
                 android:textSize="13dp" />
         </RelativeLayout>
