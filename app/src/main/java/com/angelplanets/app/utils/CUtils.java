@@ -67,9 +67,9 @@ public class CUtils {
     public static String getStandardDate(long timeStr) {
         long time = System.currentTimeMillis();
         SimpleDateFormat format = null;
-        long day = (long) Math.ceil(time / 24 / 60 / 60 / 1000.0f);// 天前
-
-        if (day - 1 > 0) {
+        long day = time / 24 / 60 / 60 / 1000;
+        long currentTime = timeStr/ 24 / 60 / 60 / 1000;
+        if (day-currentTime>0) {
             format = new SimpleDateFormat("MM月dd日", Locale.CHINA);
         } else{
           format = new SimpleDateFormat("HH:mm", Locale.CHINA);

@@ -1,14 +1,19 @@
 package com.angelplanets.app.social.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.angelplanets.app.R;
+import com.angelplanets.app.social.activity.UserInfoActivity;
 import com.angelplanets.app.social.bean.CommentBean;
 import com.angelplanets.app.utils.CUtils;
+import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
 import com.angelplanets.app.view.CircleImageView;
 
@@ -45,7 +50,7 @@ public class CommentAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null){
             holder = new ViewHolder();
@@ -55,12 +60,13 @@ public class CommentAdapter extends BaseAdapter{
             holder.time = (TextView) convertView.findViewById(R.id.tv_comment_time);
             holder.detail = (TextView) convertView.findViewById(R.id.tv_comment_detail);
             holder.reply = (TextView) convertView.findViewById(R.id.tv_comment_reply);
+            holder.comment = (RelativeLayout) convertView.findViewById(R.id.rl_item_comment);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CommentBean.DataEntity.SocialCommentListEntity comment = commentList.get(position);
+        final CommentBean.DataEntity.SocialCommentListEntity comment = commentList.get(position);
         holder.name.setText(comment.getFromName());
         holder.time.setText(""+ CUtils.getStandardDate(comment.getFromCreateTime()));
         holder.detail.setText(comment.getFromContent());
@@ -72,6 +78,26 @@ public class CommentAdapter extends BaseAdapter{
             holder.reply.setVisibility(View.GONE);
         }
         x.image().bind(holder.icon, URLUtils.rootUrl+comment.getAvatarUrl());
+
+        // item点击监听
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemCommnet.onComment(position);
+            }
+        });
+
+        holder.icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserInfoActivity.class);
+                intent.putExtra(Constant.CUSTOMER_ID, comment.getFromId());
+                context.startActivity(intent);
+                Activity activity = (Activity) context;
+                activity.overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
+
         return convertView;
     }
     
@@ -81,5 +107,21 @@ public class CommentAdapter extends BaseAdapter{
         TextView time;
         TextView detail;
         TextView reply;
+        RelativeLayout comment;
+    }
+
+    private OnItemCommnet onItemCommnet;
+
+    public void setOnItemCommnet(OnItemCommnet onItemCommnet) {
+        this.onItemCommnet = onItemCommnet;
+    }
+
+    /**
+     * item评论的监听
+     */
+    public interface OnItemCommnet{
+
+        void onComment(int itemPosition);
+
     }
 }

@@ -13,6 +13,9 @@ public abstract class BasePager {
     public View mRootView;//根视图
     public Activity mActivity; //activity的引用
 
+    public BasePager(){
+
+    }
     public BasePager(Activity activity){
         mActivity = activity;
         mRootView = getView();

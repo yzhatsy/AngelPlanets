@@ -1,8 +1,11 @@
 package com.angelplanets.app.social;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.angelplanets.app.R;
-import com.angelplanets.app.social.bean.SocialBean;
 import com.angelplanets.app.social.activity.SocialDetailActivity;
 import com.angelplanets.app.social.activity.UserInfoActivity;
+import com.angelplanets.app.social.bean.SocialBean;
 import com.angelplanets.app.utils.CUtils;
 import com.angelplanets.app.utils.Constant;
 import com.angelplanets.app.utils.URLUtils;
@@ -26,6 +29,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.xutils.common.Callback;
 import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -99,10 +103,21 @@ class SocialAdapter extends BaseAdapter {
         holder.detail.setText(""+socialData.getDetail());
         holder.praise.setText(""+socialData.getCollectCount());
 
-        x.image().bind(holder.imageView, URLUtils.rootUrl + socialData.getAvatarUrl(),mImageOptions);
+        x.image().bind(holder.imageView, URLUtils.rootUrl + socialData.getAvatarUrl(), mImageOptions, new Callback.CommonCallback<Drawable>() {
+            @Override
+            public void onSuccess(Drawable drawable) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {}
+            @Override
+            public void onCancelled(CancelledException cex) {}
+            @Override
+            public void onFinished() {}
+        });
         //使用imageLoader 加载图片
         final ViewHolder finalHolder = holder;
-        imageLoader.displayImage(URLUtils.rootUrl + socialData.getPictures().get(0),holder.photo, options, new SimpleImageLoadingListener() {
+        imageLoader.displayImage(URLUtils.rootUrl + socialData.getPictures().get(1),holder.photo, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
@@ -116,11 +131,8 @@ class SocialAdapter extends BaseAdapter {
                         float width = loadedImage.getWidth();
                         float height = loadedImage.getHeight();
                         float  ratio = width /height;
-                        Log.e("TAG", "width= " + width + "height = " + height+"ratio = "+ratio);
-
-
+                        Log.e("TAG", "width= " + width + "height = " + height + "ratio = " + ratio);
                         finalHolder.photo.setRatio(ratio);
-
                     }
                 }, new ImageLoadingProgressListener() {
                     @Override
@@ -143,9 +155,10 @@ class SocialAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, SocialDetailActivity.class);
                 intent.putExtra("SOCIAL_ID",socialData.getSocialId());
-                intent.putExtra(Constant.CUSTOMER_ID,socialData.getCustomerId());
-                Log.e("TAG","social_id = "+socialData.getSocialId());
+                intent.putExtra(Constant.CUSTOMER_ID, socialData.getCustomerId());
                 context.startActivity(intent);
+                Activity activity = (Activity) context;
+                activity.overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
@@ -163,6 +176,5 @@ class SocialAdapter extends BaseAdapter {
         SocialImageView photo;   //图片
 
     }
-
 }
 

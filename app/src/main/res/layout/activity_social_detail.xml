@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white">
     <include layout="@layout/common_title" />
     <ScrollView
         android:layout_width="match_parent"
@@ -16,18 +17,21 @@
         android:layout_height="1dp"
         android:background="#f1f1f1"/>
     <LinearLayout
+        android:id="@+id/ll_bottom_like"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <RelativeLayout
             android:id="@+id/rl_like"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+           >
             <TextView
                 android:id="@+id/tv_like_count"
                 android:layout_width="wrap_content"

@@ -75,6 +75,14 @@ public class URLUtils {
      */
     public static final String ADD_COMMENT_URL = rootUrl+"/rest/api/socialComment/add";
     /**
+     * 用户点赞动作的url post请求 status: 0 点赞， 1 取消
+     */
+    public static final String LIKE_URL = rootUrl+"/rest/api/socialCollects/";
+    /**
+     * 是否点赞的状态url
+     */
+    public static final String LIKE_STATE_URL = rootUrl+"/rest/api/socialCollects/";
+    /**
      * 商品列表的url
      */
     public static final String SHOPURL ="/rest/api/commodity/listAll2?type=";

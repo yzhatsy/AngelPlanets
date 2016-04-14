@@ -3,12 +3,14 @@ package com.angelplanets.app.social.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,6 +43,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.xutils.common.Callback;
 import org.xutils.common.util.DensityUtil;
 import org.xutils.x;
 
@@ -52,7 +55,7 @@ import java.util.Locale;
 /**
  * 好友个人信息
  */
-public class UserInfoActivity extends Activity implements View.OnClickListener {
+public class UserInfoActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ImageButton mBack;
     private int mCustomerId;
@@ -166,6 +169,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         ll_user_describe.setFocusable(false);
         ll_user_describe.setAdapter(new MemoryAdapter());
         ll_user_describe.setFocusable(false);
+        ll_user_describe.setOnItemClickListener(this);
     }
 
     /**
@@ -233,11 +237,29 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     /**
+     * listView item 的点击监听
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MemoryBean.DataEntity.SocialsEntity socialsEntity = socials.get(position);
+        Intent intent = new Intent(this, SocialDetailActivity.class);
+        intent.putExtra("SOCIAL_ID",socialsEntity.getSocialId());
+        intent.putExtra(Constant.CUSTOMER_ID,mCustomerId );
+        startActivity(intent);
+       overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
+
+
+    /**
      * 适配器
      */
     class MemoryAdapter extends BaseAdapter{
-
         String times;
+        String Mtimes;
         @Override
         public int getCount() {
             return socials.size();
@@ -252,7 +274,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            final ViewHolder holder;
             if (convertView == null){
                 holder = new ViewHolder();
                 convertView = View.inflate(UserInfoActivity.this,R.layout.item_user_info_list,null);
@@ -263,51 +285,90 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 holder.tv_day_hour = (TextView) convertView.findViewById(R.id.tv_day_hour);
                 holder.tv_count = (TextView) convertView.findViewById(R.id.tv_count);
                 holder.tv_descirbe = (TextView) convertView.findViewById(R.id.tv_descirbe);
+                holder.ll_today = (LinearLayout) convertView.findViewById(R.id.ll_today);
                 convertView.setTag(holder);
             }else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            MemoryBean.DataEntity.SocialsEntity social = socials.get(position);
+            final MemoryBean.DataEntity.SocialsEntity social = socials.get(position);
             holder.tv_descirbe.setText(social.getSocialDetial());
-            holder.tv_count.setText(social.getSocialPhoto().size()+"");
             long dataTime = social.getSocialCreateTime();
 
             long time = System.currentTimeMillis();
             SimpleDateFormat format = null;
-            long day = (long) Math.ceil(time / 24 / 60 / 60 / 1000.0f);// 天前
+            long currentTime = time / 24 / 60 / 60 / 1000;
+            long day = dataTime/ 24 / 60 / 60 / 1000;
 
-            if (day - 1 > 0) {
+            if (currentTime-day > 0) {
                 format = new SimpleDateFormat("dd/", Locale.CHINA);
-                String temp_time = format.format(dataTime);
-                if (!temp_time.equals(times)){
+                String temp_Mtime = format.format(dataTime);
+                if (temp_Mtime.equals(Mtimes)){
+                    format = new SimpleDateFormat("dd/", Locale.CHINA);
+                    String temp_time = format.format(dataTime);
+                    if (!temp_time.equals(times)){
+                        holder.ll_time.setVisibility(View.VISIBLE);
+                        holder.tv_day.setText(temp_time+"");
+                        format = new SimpleDateFormat("MM月", Locale.CHINA);
+
+                        holder.tv_day_hour.setText(format.format(dataTime));
+
+                    }else {
+                        holder.ll_time.setVisibility(View.GONE);
+                    }
+                    times = temp_time;
+                }else {
+
+                    format = new SimpleDateFormat("dd/", Locale.CHINA);
+                    String temp_time = format.format(dataTime);
+
                     holder.ll_time.setVisibility(View.VISIBLE);
                     holder.tv_day.setText(temp_time+"");
                     format = new SimpleDateFormat("MM月", Locale.CHINA);
                     times = temp_time;
                     holder.tv_day_hour.setText(format.format(dataTime));
-                }else {
-                    holder.ll_time.setVisibility(View.GONE);
                 }
-
+                Mtimes = temp_Mtime;
             } else{
-                holder.tv_hour.setVisibility(View.VISIBLE);
+
+                holder.ll_today.setVisibility(View.VISIBLE);
+                holder.ll_time.setVisibility(View.GONE);
                 format = new SimpleDateFormat("HH:mm", Locale.CHINA);
                 holder.tv_hour.setText(format.format(dataTime));
             }
-            x.image().bind(holder.iv_icon, URLUtils.rootUrl+social.getSocialPhoto().get(0));
+
+            x.image().bind(holder.iv_icon, URLUtils.rootUrl + social.getSocialPhoto().get(0), new Callback.CommonCallback<Drawable>() {
+                @Override
+                public void onSuccess(Drawable result) {
+                    holder.tv_count.setText((social.getSocialPhoto().size() - 1) + "");
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
             return convertView;
         }
     }
 
    class ViewHolder{
        LinearLayout ll_time;
+       LinearLayout ll_today;
        TextView tv_day;
        TextView tv_day_hour;
        TextView tv_hour;
        ImageView iv_icon;
        TextView tv_count;
        TextView tv_descirbe;
+
    }
 
 }

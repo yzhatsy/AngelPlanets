@@ -3,15 +3,11 @@ package com.angelplanets.app;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,6 +17,7 @@ import com.angelplanets.app.mine.MinePager;
 import com.angelplanets.app.social.SocialPager;
 import com.angelplanets.app.store.StorePager;
 import com.angelplanets.app.utils.Constant;
+import com.angelplanets.app.utils.bases.BaseFragment;
 import com.angelplanets.app.utils.bases.BasePager;
 
 import java.util.ArrayList;
@@ -38,11 +35,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public MainActivity(){
         super();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.angelplanets.app.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         initData();
         //获得Fragment管理器
@@ -61,14 +57,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
     }
-
     /**
      * 初始化数据
      */
     private void initData() {
-        mRadioGroup = (RadioGroup) findViewById(com.angelplanets.app.R.id.radiogroup_main);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup_main);
 
-        ib_message = (ImageView) findViewById(com.angelplanets.app.R.id.ib_message);
+        ib_message = (ImageView) findViewById(R.id.ib_message);
         mPagers = new ArrayList<>();
         mPagers.add(new HomePager(this));
         mPagers.add(new StorePager(this));
@@ -122,32 +117,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void setFragment() {
         //开启事务
         FragmentTransaction ft = mFragmentManager.beginTransaction();
-        ft.replace(R.id.fl_content_main,new Fragment(){
-            @Nullable
-            @Override
-            public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                                     @Nullable Bundle savedInstanceState){
-                BasePager pager = getBasePager();
-                if (null != pager)
-                    return pager.mRootView;
-                return null;
-
-            }
-        }).commit();
+        ft.replace(R.id.fl_content_main, BaseFragment.getInstance(mPosition,mPagers)).commit();
     }
 
-    /**
-     * 根据RadioGroup的索引位置获取指定的Pager页面
-     * @return
-     */
-    private BasePager getBasePager() {
-        BasePager pager = mPagers.get(mPosition);
-        if (null != pager && !pager.mInit){
-            pager.mInit = true;
-            pager.initData();
-        }
-        return pager;
-    }
 
     /**
      * 在按一次先回到首页

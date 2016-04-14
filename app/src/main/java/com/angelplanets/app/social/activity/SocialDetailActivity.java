@@ -2,6 +2,7 @@ package com.angelplanets.app.social.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -12,9 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.x;
 
 import java.io.UnsupportedEncodingException;
@@ -56,7 +59,7 @@ import java.util.Map;
 /**
  * 社交详情页面
  */
-public class SocialDetailActivity extends Activity implements View.OnClickListener {
+public class SocialDetailActivity extends Activity implements View.OnClickListener, CommentAdapter.OnItemCommnet {
 
     private int mSocialId;
     private int mCustomerId;
@@ -88,6 +91,8 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
     private CommentAdapter mAdapter;
     private EditText editText;
     private String commentUrl;
+    private LinearLayout ll_like;
+    private LinearLayout ll_bottom_like;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,33 +101,18 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         initView();
 
         mUserId = CacheUtils.getIntFromCache(this, Constant.LOGIN_FLAG);
-        String detailUrl = URLUtils.SOCIAL_DETAIL_URL+mSocialId;
-        Log.e("TAG","detailUrl = "+detailUrl);
-        commentUrl = URLUtils.COMMENT_URL+mUserId+URLUtils.CUSTOMER_ID+mCustomerId+URLUtils.SOCIAL_ID+mSocialId+URLUtils.PAGECOUNT+1;
-        Log.e("TAG","commentUrl = "+commentUrl);
+        String detailUrl = URLUtils.SOCIAL_DETAIL_URL + mSocialId;
+        Log.e("TAG", "detailUrl = " + detailUrl);
+        commentUrl = URLUtils.COMMENT_URL + mUserId + URLUtils.CUSTOMER_ID + mCustomerId + URLUtils.SOCIAL_ID + mSocialId + URLUtils.PAGECOUNT + 1;
+        String collectsUrl = URLUtils.LIKE_STATE_URL + mSocialId + "/" + mUserId;
+
+        Log.e("TAG", "commentUrl = " + commentUrl);
+        getDataFromNet(collectsUrl, "collects");
         getDataFromNet(detailUrl, "detail");
-        getDataFromNet(commentUrl,"comment");
-
-        mBack.setOnClickListener(this);
-        mBottomLike.setOnClickListener(this);
-        iv_toplike.setOnClickListener(this);
-        mBottomComment.setOnClickListener(this);
-        mListView.setOnItemClickListener(new CommentOnItemClickListener());
+        setListener();
 
     }
 
-    /**
-     * listView item 的点击监听
-     */
-    class CommentOnItemClickListener implements AdapterView.OnItemClickListener{
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            CommentBean.DataEntity.SocialCommentListEntity comment = mAdapter.getItem(position);
-            int toId = comment.getFromId();
-            toComment(mSocialId,mUserId,toId);
-        }
-    }
     /**
      * 初始化视图
      */
@@ -157,30 +147,55 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         mLabel2 = (TextView) findViewById(R.id.tv_label1);
         mLabel3 = (TextView) findViewById(R.id.tv_label1);
         mNoComment = (TextView) findViewById(R.id.tv_no_comment);
-
+        ll_like = (LinearLayout) findViewById(R.id.ll_like);
+        ll_bottom_like = (LinearLayout) findViewById(R.id.ll_bottom_like);
     }
 
     /**
-     *网络请求数据
+     * 监听事件
+     */
+    private void setListener() {
+        mBack.setOnClickListener(this);
+        mBottomLike.setOnClickListener(this);
+        iv_toplike.setOnClickListener(this);
+        mBottomComment.setOnClickListener(this);
+        mUserIcon.setOnClickListener(this);
+    }
+
+    /**
+     * item 的评论监听
+     * @param itemPosition
+     */
+    @Override
+    public void onComment(int itemPosition) {
+        CommentBean.DataEntity.SocialCommentListEntity comment = mAdapter.getItem(itemPosition);
+        int toSocialId = comment.getSocialCommentId();
+        toComment(mSocialId, mUserId, toSocialId + ""); //评论
+    }
+
+    /**
+     * 网络请求数据
      */
     private void getDataFromNet(String url, final String type) {
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) { //请求成功
                 Log.e("TAG", "请求成功..............： s=" + s);
-                setData(s,type);
+                setData(s, type);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) { //请求失败
                 Log.e("TAG", "请求失败： volleyError=" + volleyError);
-                Toast.makeText(SocialDetailActivity.this, "网络连接失败", Toast.LENGTH_SHORT).show();
+                if ("detail".equals(type)){
+                    Toast.makeText(SocialDetailActivity.this, "亲~请检查您的网络", Toast.LENGTH_SHORT).show();
+                }
             }
-        }){
+        }) {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 try {
-                    String data = new String(response.data,"UTF-8");
+                    String data = new String(response.data, "UTF-8");
                     return Response.success(data, HttpHeaderParser.parseCacheHeaders(response));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -194,37 +209,76 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
     /**
      * 设置页面数据
      */
-    private void setData(String jsonStr,String type) {
-        if ("detail".equals(type)){
+    private void setData(String jsonStr, String type) {
+        if ("detail".equals(type)) {         //详情
             setDetailData(jsonStr);
-        }else if ("comment".equals(type)){
+            //加载评论列表
+            getDataFromNet(commentUrl, "comment");
+
+        } else if ("comment".equals(type)) {  //评论
             setCommentListData(jsonStr);
+        } else if ("collects".equals(type)) { //点赞
+            setCollectListData(jsonStr);
         }
 
     }
 
+    private int collectState = -1;
+
+    /**
+     * 对该用户是否已经点赞
+     *
+     * @param jsonStr
+     */
+    private void setCollectListData(String jsonStr) {
+        try {
+            JSONObject collectStr = new JSONObject(jsonStr);
+            int statusCode = collectStr.optInt("statusCode");
+            if (statusCode == 200) {
+                collectState = collectStr.optInt("data");
+                switch (collectState) {
+                    case 0:
+                        iv_like.setImageResource(R.drawable.icon_good);
+                        iv_toplike.setImageResource(R.drawable.icon_good);
+                        break;
+                    case 1:
+                        iv_like.setImageResource(R.drawable.icon_good_selected);
+                        iv_toplike.setImageResource(R.drawable.icon_good_selected);
+                        break;
+                }
+            }
+            ll_like.setVisibility(View.VISIBLE);
+            ll_bottom_like.setVisibility(View.VISIBLE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 设置用户评论列表的数据
+     *
      * @param jsonStr
      */
     private void setCommentListData(String jsonStr) {
         CommentBean commentBean = CUtils.getGson().fromJson(jsonStr, CommentBean.class);
-        List<CommentBean.DataEntity.SocialCommentListEntity> commentList =  commentBean.getData().getSocialCommentList();
+        List<CommentBean.DataEntity.SocialCommentListEntity> commentList = commentBean.getData().getSocialCommentList();
         mAdapter = new CommentAdapter(this, commentList);
-        if (commentList.isEmpty()){
+        if (commentList.isEmpty()) {
             mNoComment.setVisibility(View.VISIBLE);
             mListView.setVisibility(View.GONE);
-        }else {
+        } else {
             mNoComment.setVisibility(View.GONE);
             mListView.setVisibility(View.VISIBLE);
+            mListView.setFocusable(false);
             mListView.setAdapter(mAdapter);
             mListView.setFocusable(false);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.setOnItemCommnet(this);
         }
     }
 
     /**
      * 设置用户详情数据
+     *
      * @param jsonStr
      */
     private void setDetailData(String jsonStr) {
@@ -235,15 +289,15 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         mPublishDetail.setText("" + detailBean.getData().getDetail());
         likeCount = detailBean.getData().getCollectCount();
         mTopLikeCount.setText("" + likeCount);
-        if (mData.getTag1() != null){
+        if (mData.getTag1() != null) {
             mLabel1.setVisibility(View.VISIBLE);
             mLabel1.setText(mData.getTag1());
         }
-        if (mData.getTag2() != null){
+        if (mData.getTag2() != null) {
             mLabel2.setVisibility(View.VISIBLE);
             mLabel2.setText(mData.getTag2());
         }
-        if (mData.getTag3() != null){
+        if (mData.getTag3() != null) {
             mLabel3.setVisibility(View.VISIBLE);
             mLabel3.setText(mData.getTag3());
         }
@@ -252,7 +306,7 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         myTextview.setCompoundDrawables(drawable, null, null, null);*/
         x.image().bind(mUserIcon, URLUtils.rootUrl + detailBean.getData().getCustomer().getAvatarUrl());
-        imageLoader.displayImage(URLUtils.rootUrl + detailBean.getData().getPhotoList().get(0), mPublishPhoto, options, new SimpleImageLoadingListener() {
+        imageLoader.displayImage(URLUtils.rootUrl + detailBean.getData().getPhotoList().get(1), mPublishPhoto, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                     }
@@ -270,7 +324,7 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
 
                         mPublishPhoto.setRatio(ratio);
                         mPhotoCount.setVisibility(View.VISIBLE);
-                        mPhotoCount.setText("" + detailBean.getData().getPhotoList().size());
+                        mPhotoCount.setText("" + (detailBean.getData().getPhotoList().size()-1));
                     }
                 }, new ImageLoadingProgressListener() {
                     @Override
@@ -282,11 +336,12 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
 
     /**
      * 点击事件
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ib_common_back:
                 finish();
                 overridePendingTransition(R.anim.left_in, R.anim.right_out);
@@ -296,8 +351,13 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
                 changeLikeState();
                 break;
             case R.id.tv_comment:
-                Log.e("TAG","mCustomerId = "+mCustomerId);
-                toComment(mSocialId, mUserId, mCustomerId);
+                toComment(mSocialId, mUserId, "");
+                break;
+            case R.id.iv_detail_item_icon:
+                Intent intent = new Intent(this, UserInfoActivity.class);
+                intent.putExtra(Constant.CUSTOMER_ID,mCustomerId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
     }
@@ -305,7 +365,7 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
     /**
      * 评论
      */
-    private void toComment( final int socialId, final int customerId, final int toSocialId) {
+    private void toComment(final int socialId, final int customerId, final String toSocialId) {
 
         View view = View.inflate(this, R.layout.text_comment, null);
         editText = (EditText) view.findViewById(R.id.et_comment);
@@ -328,55 +388,66 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
                 inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             }
         }
-       //按回车键发送
+        //按回车键发送
         editText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    //当actionId == XX_SEND 或者 XX_DONE时都触发
-                    //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
-                    //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
-                    if (actionId == EditorInfo.IME_ACTION_SEND
-                            || actionId == EditorInfo.IME_ACTION_DONE
-                            || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
-                        //处理事件
-                        if (inputManager.isActive()) {
-                            inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                            comment(socialId,customerId,toSocialId);  //评论
-                            getDataFromNet(commentUrl, "comment");
-                            popWindow.dismiss();
-                        }
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //当actionId == XX_SEND 或者 XX_DONE时都触发
+                //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
+                //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
+                if (actionId == EditorInfo.IME_ACTION_SEND
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
+                    //处理事件
+                    if (inputManager.isActive()) {
+                        inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        comment(socialId, customerId, toSocialId);  //评论
+
+                        popWindow.dismiss();
                     }
-                    return false;
                 }
+                return false;
+            }
         });
 
     }
 
     /**
-     *添加评论
+     * 添加评论
      */
-    private void comment(final int socialId, final int customerId, final int toSocialId) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,URLUtils.ADD_COMMENT_URL,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.e("TAG", "comment -> " + response);
-                }
-            }, new Response.ErrorListener() {
+    private void comment(final int socialId, final int customerId, final String toSocialId) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLUtils.ADD_COMMENT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("TAG", "comment -> " + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            int code = jsonObject.optInt("statusCode");
+                            if (code == 200) {
+                                getDataFromNet(commentUrl, "comment");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG", error.getMessage(), error);
             }
         }) {
             @Override
-            protected Map<String,String> getParams() {
+            protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
-                Map<String,String> map = new HashMap();
-                map.put("socialId",socialId+"");
+                Map<String, String> map = new HashMap();
+                map.put("socialId", socialId + "");
                 map.put("customerId", customerId + "");
                 String content = editText.getText().toString();
-                map.put("content",content);
-                map.put("toSocialId",toSocialId+"");
+                map.put("content", content);
+                map.put("toSocialId", toSocialId);
                 return map;
             }
         };
@@ -390,38 +461,54 @@ public class SocialDetailActivity extends Activity implements View.OnClickListen
      */
     private void changeLikeState() {
 
-        if (flag){
+        if (collectState == 0) {
+            collectState = 1;
             iv_like.setImageResource(R.drawable.icon_good_selected);
             iv_toplike.setImageResource(R.drawable.icon_good_selected);
             likeCount++;
             mTopLikeCount.setText("" + likeCount);
-            flag = false;
-        }else {
+        } else if (collectState == 1) {
+            collectState = 0;
             iv_like.setImageResource(R.drawable.icon_good);
             iv_toplike.setImageResource(R.drawable.icon_good);
             likeCount--;
-            mTopLikeCount.setText(""+likeCount);
-            flag = true;
+            mTopLikeCount.setText("" + likeCount);
+        } else {//没网状态为保证用户体验正常，设置的模拟点赞
+            int collects = likeCount;
+            if (flag) {
+                iv_like.setImageResource(R.drawable.icon_good_selected);
+                iv_toplike.setImageResource(R.drawable.icon_good_selected);
+                collects++;
+                mTopLikeCount.setText("" + collects);
+                flag = false;
+            } else {
+                iv_like.setImageResource(R.drawable.icon_good);
+                iv_toplike.setImageResource(R.drawable.icon_good);
+                collects--;
+                mTopLikeCount.setText("" + collects);
+                flag = true;
+            }
         }
 
     }
 
     @Override
     protected void onDestroy() {
-        View view_null = View.inflate(this,R.layout.view_null,null);
+        View view_null = View.inflate(this, R.layout.view_null, null);
         setContentView(view_null);
         super.onDestroy();
     }
 
     /**
      * back键平滑退出
+     *
      * @param keyCode
      * @param event
      * @return
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK ){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             overridePendingTransition(R.anim.left_in, R.anim.right_out);
             return false;
